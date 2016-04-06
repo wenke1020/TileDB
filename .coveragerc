@@ -1,0 +1,14 @@
+[run]
+omit =
+  examples/*
+  doxygen/*
+
+branch = True
+
+source = .
+
+[report]
+omit =
+  examples/*
+  doxygen/*
+
