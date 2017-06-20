@@ -138,8 +138,8 @@ class StorageManager {
    * @note Allocators should not be set more than once.
    */
   int set_allocators(
-      void *(*malloc)(uint64_t, void*),
-      void *(*realloc)(void*, uint64_t, void*),
+      void* (*malloc)(uint64_t, void*),
+      void* (*realloc)(void*, uint64_t, void*),
       void (*free)(void*, void*));
 
   /* ********************************* */
@@ -522,16 +522,16 @@ class StorageManager {
      * @param data Auxiliary data.
      * @return The pointer to the newly allocated memory.
      */
-    void *(*malloc_)(uint64_t size, void* data);
+    void* (*malloc_)(uint64_t size, void* data);
     /**
      * Reallocates memory.
-     * 
+     *
      * @param p The pointer of the memory to be reallocated.
      * @param size The size of the memory to be reallocated.
      * @param data Auxiliary data.
-     * @return The pointer to the reallocated memory. 
+     * @return The pointer to the reallocated memory.
      */
-    void *(*realloc_)(void* p, uint64_t size, void* data);
+    void* (*realloc_)(void* p, uint64_t size, void* data);
     /**
      * Deallocates memory.
      *
@@ -544,9 +544,6 @@ class StorageManager {
     bool custom_;
   };
 
-
-
-
   /* ********************************* */
   /*        PRIVATE ATTRIBUTES         */
   /* ********************************* */
@@ -555,7 +552,7 @@ class StorageManager {
   StorageManagerConfig* config_;
   /** The memory allocators. */
   MemoryAllocators mem_allocators_;
-  /** OpneMP mutex for creating/deleting an OpenArray object. */
+/** OpenMP mutex for creating/deleting an OpenArray object. */
 #ifdef HAVE_OPENMP
   omp_lock_t open_array_omp_mtx_;
 #endif

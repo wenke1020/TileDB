@@ -108,24 +108,21 @@ int StorageManager::init(StorageManagerConfig* config) {
   return open_array_mtx_init();
 }
 
-
-
-
 /* ****************************** */
 /*            ALLOCATORS          */
 /* ****************************** */
 
 int StorageManager::set_allocators(
-    void *(*malloc)(uint64_t, void*),
-    void *(*realloc)(void*, uint64_t, void*),
+    void* (*malloc)(uint64_t, void*),
+    void* (*realloc)(void*, uint64_t, void*),
     void (*free)(void*, void*)) {
   // Check if allocators have been set already
-  if(mem_allocators_.custom_) {
-    std::string errmsg = "Allocators already set"; 
+  if (mem_allocators_.custom_) {
+    std::string errmsg = "Allocators already set";
     PRINT_ERROR(errmsg);
     tiledb_sm_errmsg = TILEDB_SM_ERRMSG + errmsg;
-    return TILEDB_SM_ERR; 
-  } 
+    return TILEDB_SM_ERR;
+  }
 
   // Set allocators
   mem_allocators_.malloc_ = malloc;
@@ -136,9 +133,6 @@ int StorageManager::set_allocators(
   // Success
   return TILEDB_SM_OK;
 }
-
-
-
 
 /* ****************************** */
 /*            WORKSPACE           */

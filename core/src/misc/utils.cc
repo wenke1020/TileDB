@@ -269,15 +269,15 @@ std::string current_dir() {
 }
 
 void* default_malloc(uint64_t size, void* data) {
-  return malloc(size_t(size)); 
+  return malloc(size_t(size));
 }
 
 void* default_realloc(void* p, uint64_t size, void* data) {
-  return realloc(p, size_t(size)); 
+  return realloc(p, size_t(size));
 }
 
 void default_free(void* p, void* data) {
-   free(p);
+  free(p);
 }
 
 int delete_dir(const std::string& dirname) {

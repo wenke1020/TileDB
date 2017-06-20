@@ -159,7 +159,7 @@ TILEDB_EXPORT int tiledb_ctx_finalize(TileDB_CTX* tiledb_ctx);
 
 /**
  * Sets custom memory allocators.
- * 
+ *
  * @param tiledb_ctx The TileDB context.
  * @param malloc The allocator.
  * @param realloc The reallocator.
@@ -172,8 +172,8 @@ TILEDB_EXPORT int tiledb_ctx_finalize(TileDB_CTX* tiledb_ctx);
  */
 TILEDB_EXPORT int tiledb_set_allocators(
     TileDB_CTX* tiledb_ctx,
-    void *(*malloc)(uint64_t, void*),
-    void *(*realloc)(void*, uint64_t, void*),
+    void* (*malloc)(uint64_t, void*),
+    void* (*realloc)(void*, uint64_t, void*),
     void (*free)(void*, void*));
 
 /* ********************************* */

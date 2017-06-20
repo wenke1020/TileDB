@@ -146,34 +146,29 @@ int tiledb_ctx_finalize(TileDB_CTX* tiledb_ctx) {
   return TILEDB_OK;
 }
 
-
-
-
 /* ****************************** */
 /*            ALLOCATORS          */
 /* ****************************** */
 
-
 int tiledb_set_allocators(
     TileDB_CTX* tiledb_ctx,
-    void *(*malloc)(uint64_t, void*),
-    void *(*realloc)(void*, uint64_t, void*),
+    void* (*malloc)(uint64_t, void*),
+    void* (*realloc)(void*, uint64_t, void*),
     void (*free)(void*, void*)) {
   // Sanity check
   if (!sanity_check(tiledb_ctx))
     return TILEDB_ERR;
 
   // Set allocators
-  if(tiledb_ctx->storage_manager_->set_allocators(malloc, realloc, free) !=
-     TILEDB_SM_OK) {
+  if (tiledb_ctx->storage_manager_->set_allocators(malloc, realloc, free) !=
+      TILEDB_SM_OK) {
     strcpy(tiledb_errmsg, tiledb_sm_errmsg.c_str());
     return TILEDB_ERR;
-  } 
+  }
 
-  // Success 
+  // Success
   return TILEDB_OK;
 }
-
 
 /* ****************************** */
 /*            WORKSPACE           */

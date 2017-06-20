@@ -223,11 +223,11 @@ void* default_malloc(uint64_t size, void* data);
 
 /**
  * Reallocates memory (ignores data argument).
- * 
+ *
  * @param p The pointer of the memory to be reallocated.
  * @param size The size of the memory to be reallocated.
  * @param data Auxiliary data.
- * @return The pointer to the reallocated memory. 
+ * @return The pointer to the reallocated memory.
  */
 void* default_realloc(void* p, uint64_t size, void* data);
 
