@@ -91,7 +91,7 @@ TILEDB_EXPORT void tiledb_version(int* major, int* minor, int* rev);
 TILEDB_EXPORT extern char tiledb_errmsg[TILEDB_ERRMSG_MAX_LEN];
 
 /* ********************************* */
-/*              CONFIG               */
+/*               CONFIG              */
 /* ********************************* */
 
 /** Used to pass congiguration parameters to TileDB. */
@@ -152,6 +152,29 @@ TILEDB_EXPORT int tiledb_ctx_init(
  * @return TILEDB_OK for success and TILEDB_ERR for error.
  */
 TILEDB_EXPORT int tiledb_ctx_finalize(TileDB_CTX* tiledb_ctx);
+
+/* ********************************* */
+/*              ALLOCATORS           */
+/* ********************************* */
+
+/**
+ * Sets custom memory allocators.
+ * 
+ * @param tiledb_ctx The TileDB context.
+ * @param malloc The allocator.
+ * @param realloc The reallocator.
+ * @param free The deallocator.
+ * @return TILEDB_OK for success and TILEDB_ERR for error.
+ *
+ * @note Allocators should not be set more than once for the same context.
+ *     Moreover, they should be set immediately after initializing the
+ *     context and before spawning any threads.
+ */
+TILEDB_EXPORT int tiledb_set_allocators(
+    TileDB_CTX* tiledb_ctx,
+    void *(*malloc)(uint64_t, void*),
+    void *(*realloc)(void*, uint64_t, void*),
+    void (*free)(void*, void*));
 
 /* ********************************* */
 /*              WORKSPACE            */

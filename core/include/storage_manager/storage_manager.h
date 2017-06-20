@@ -5,7 +5,7 @@
  *
  * The MIT License
  *
- * @copyright Copyright (c) 2016 MIT and Intel Corporation
+ * @copyright Copyright (c) 2017 MIT, Intel Corporation and TileDB, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -122,6 +122,25 @@ class StorageManager {
    * @return TILEDB_SM_OK for success and TILEDB_SM_ERR for error.
    */
   int init(StorageManagerConfig* config);
+
+  /* ********************************* */
+  /*            ALLOCATORS             */
+  /* ********************************* */
+
+  /**
+   * Sets the custom memory allocators.
+   *
+   * @param malloc The allocator.
+   * @param realloc The reallocator.
+   * @param free The deallocator.
+   * @return TILEDB_SM_OK for success and TILEDB_SM_ERR for error.
+   *
+   * @note Allocators should not be set more than once.
+   */
+  int set_allocators(
+      void *(*malloc)(uint64_t, void*),
+      void *(*realloc)(void*, uint64_t, void*),
+      void (*free)(void*, void*));
 
   /* ********************************* */
   /*            WORKSPACE              */
@@ -491,12 +510,52 @@ class StorageManager {
 
  private:
   /* ********************************* */
+  /*          PRIVATE STRUCTS          */
+  /* ********************************* */
+
+  /** Memory allocators. */
+  struct MemoryAllocators {
+    /**
+     * Allocates memory.
+     *
+     * @param size The size (in bytes) of the memory to be allocated.
+     * @param data Auxiliary data.
+     * @return The pointer to the newly allocated memory.
+     */
+    void *(*malloc_)(uint64_t size, void* data);
+    /**
+     * Reallocates memory.
+     * 
+     * @param p The pointer of the memory to be reallocated.
+     * @param size The size of the memory to be reallocated.
+     * @param data Auxiliary data.
+     * @return The pointer to the reallocated memory. 
+     */
+    void *(*realloc_)(void* p, uint64_t size, void* data);
+    /**
+     * Deallocates memory.
+     *
+     * @param p The pointer of the memory to be freed.
+     * @param data Auxiliary data.
+     * @return void
+     */
+    void (*free_)(void* p, void* data);
+    /** True if custom allocators are set (rather than the default). */
+    bool custom_;
+  };
+
+
+
+
+  /* ********************************* */
   /*        PRIVATE ATTRIBUTES         */
   /* ********************************* */
 
   /** The TileDB configuration parameters. */
   StorageManagerConfig* config_;
-/** OpneMP mutex for creating/deleting an OpenArray object. */
+  /** The memory allocators. */
+  MemoryAllocators mem_allocators_;
+  /** OpneMP mutex for creating/deleting an OpenArray object. */
 #ifdef HAVE_OPENMP
   omp_lock_t open_array_omp_mtx_;
 #endif

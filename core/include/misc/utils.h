@@ -213,6 +213,34 @@ int create_fragment_file(const std::string& dir);
 std::string current_dir();
 
 /**
+ * Allocates memory (ignores data argument).
+ *
+ * @param size The size (in bytes) of the memory to be allocated.
+ * @param data Auxiliary data.
+ * @return The pointer to the newly allocated memory.
+ */
+void* default_malloc(uint64_t size, void* data);
+
+/**
+ * Reallocates memory (ignores data argument).
+ * 
+ * @param p The pointer of the memory to be reallocated.
+ * @param size The size of the memory to be reallocated.
+ * @param data Auxiliary data.
+ * @return The pointer to the reallocated memory. 
+ */
+void* default_realloc(void* p, uint64_t size, void* data);
+
+/**
+ * Deallocates memory (ignores data argument).
+ *
+ * @param p The pointer of the memory to be freed.
+ * @param data Auxiliary data.
+ * @return void
+ */
+void default_free(void* p, void* data);
+
+/**
  * Deletes a directory. Note that the directory must not contain other
  * directories, but it should only contain files.
  *

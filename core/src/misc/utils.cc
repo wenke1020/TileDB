@@ -268,6 +268,18 @@ std::string current_dir() {
   return dir;
 }
 
+void* default_malloc(uint64_t size, void* data) {
+  return malloc(size_t(size)); 
+}
+
+void* default_realloc(void* p, uint64_t size, void* data) {
+  return realloc(p, size_t(size)); 
+}
+
+void default_free(void* p, void* data) {
+   free(p);
+}
+
 int delete_dir(const std::string& dirname) {
   // Get real path
   std::string dirname_real = ::real_dir(dirname);
