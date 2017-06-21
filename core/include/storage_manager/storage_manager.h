@@ -38,6 +38,7 @@
 #include "array_iterator.h"
 #include "array_schema.h"
 #include "array_schema_c.h"
+#include "memory_manager.h"
 #include "metadata.h"
 #include "metadata_iterator.h"
 #include "metadata_schema_c.h"
@@ -510,48 +511,13 @@ class StorageManager {
 
  private:
   /* ********************************* */
-  /*          PRIVATE STRUCTS          */
-  /* ********************************* */
-
-  /** Memory allocators. */
-  struct MemoryAllocators {
-    /**
-     * Allocates memory.
-     *
-     * @param size The size (in bytes) of the memory to be allocated.
-     * @param data Auxiliary data.
-     * @return The pointer to the newly allocated memory.
-     */
-    void* (*malloc_)(uint64_t size, void* data);
-    /**
-     * Reallocates memory.
-     *
-     * @param p The pointer of the memory to be reallocated.
-     * @param size The size of the memory to be reallocated.
-     * @param data Auxiliary data.
-     * @return The pointer to the reallocated memory.
-     */
-    void* (*realloc_)(void* p, uint64_t size, void* data);
-    /**
-     * Deallocates memory.
-     *
-     * @param p The pointer of the memory to be freed.
-     * @param data Auxiliary data.
-     * @return void
-     */
-    void (*free_)(void* p, void* data);
-    /** True if custom allocators are set (rather than the default). */
-    bool custom_;
-  };
-
-  /* ********************************* */
   /*        PRIVATE ATTRIBUTES         */
   /* ********************************* */
 
   /** The TileDB configuration parameters. */
   StorageManagerConfig* config_;
   /** The memory allocators. */
-  MemoryAllocators mem_allocators_;
+  MemoryManager memory_manager_;
 /** OpenMP mutex for creating/deleting an OpenArray object. */
 #ifdef HAVE_OPENMP
   omp_lock_t open_array_omp_mtx_;

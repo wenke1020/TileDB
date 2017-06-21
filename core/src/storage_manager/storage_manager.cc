@@ -78,11 +78,6 @@ std::string tiledb_sm_errmsg = "";
 /* ****************************** */
 
 StorageManager::StorageManager() {
-  // Initialize default allocators
-  mem_allocators_.malloc_ = &default_malloc;
-  mem_allocators_.realloc_ = &default_realloc;
-  mem_allocators_.free_ = &default_free;
-  mem_allocators_.custom_ = false;
 }
 
 StorageManager::~StorageManager() {
@@ -116,19 +111,8 @@ int StorageManager::set_allocators(
     void* (*malloc)(uint64_t, void*),
     void* (*realloc)(void*, uint64_t, void*),
     void (*free)(void*, void*)) {
-  // Check if allocators have been set already
-  if (mem_allocators_.custom_) {
-    std::string errmsg = "Allocators already set";
-    PRINT_ERROR(errmsg);
-    tiledb_sm_errmsg = TILEDB_SM_ERRMSG + errmsg;
-    return TILEDB_SM_ERR;
-  }
-
   // Set allocators
-  mem_allocators_.malloc_ = malloc;
-  mem_allocators_.realloc_ = realloc;
-  mem_allocators_.free_ = free;
-  mem_allocators_.custom_ = true;
+  memory_manager_.set_allocators(malloc, realloc, free);
 
   // Success
   return TILEDB_SM_OK;
