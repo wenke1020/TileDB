@@ -33,8 +33,6 @@
 #ifndef TILEDB_FILESYSTEM_HDFS_H
 #define TILEDB_FILESYSTEM_HDFS_H
 
-#ifdef HAVE_HDFS
-
 #include <sys/types.h>
 #include <string>
 #include <vector>
@@ -43,7 +41,7 @@
 #include "status.h"
 #include "uri.h"
 
-#include "hdfs.h"
+#include "hadoop/include/hdfs.h"
 
 namespace tiledb {
 
@@ -92,7 +90,5 @@ class HDFS {
 }  // namespace hdfs
 
 }  // namespace tiledb
-
-#endif
 
 #endif  // TILEDB_FILESYSTEM_HDFS_H

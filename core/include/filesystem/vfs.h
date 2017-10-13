@@ -40,10 +40,7 @@
 #include <string>
 #include <vector>
 
-#ifdef HAVE_HDFS
-#include "hdfs.h"
 #include "hdfs_filesystem.h"
-#endif
 
 namespace tiledb {
 

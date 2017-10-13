@@ -30,8 +30,6 @@
  * This file includes implementations of HDFS filesystem functions.
  */
 
-#ifdef HAVE_HDFS
-
 #include "hdfs_filesystem.h"
 
 #include <fstream>
@@ -490,5 +488,3 @@ Status HDFS::file_size(const URI& uri, uint64_t* nbytes) {
 }  // namespace hdfs
 
 }  // namespace tiledb
-
-#endif
