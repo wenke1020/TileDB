@@ -44,10 +44,13 @@ namespace tiledb {
 /* ********************************* */
 
 VFS::VFS() {
-  hdfs_ =  new hdfs::HDFS();
+  hdfs_ = new hdfs::HDFS();
 }
 
 VFS::~VFS() {
+  if (hdfs_) {
+    delete hdfs_;
+  }
 }
 
 /* ********************************* */

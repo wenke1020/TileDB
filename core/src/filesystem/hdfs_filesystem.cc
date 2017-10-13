@@ -47,6 +47,17 @@ namespace tiledb {
 
 namespace hdfs {
 
+// Adapted from the TensorFlow HDFS platform support code:
+// https://github.com/tensorflow/tensorflow/tree/master/tensorflow/core/platform/hadoop
+// copyright Tensorflow authors
+
+Status close_library(void* handle) {
+  if (dlclose(handle)) {
+    return Status::Error(dlerror());
+  }
+  return Status::Ok();
+}
+
 Status load_library(const char* library_filename, void** handle) {
   *handle = dlopen(library_filename, RTLD_NOW | RTLD_LOCAL);
   if (!*handle) {
@@ -55,8 +66,7 @@ Status load_library(const char* library_filename, void** handle) {
   return Status::Ok();
 }
 
-Status library_symbol(void* handle, const char* symbol_name,
-                      void** symbol) {
+Status library_symbol(void* handle, const char* symbol_name, void** symbol) {
   *symbol = dlsym(handle, symbol_name);
   if (!*symbol) {
     return Status::Error(dlerror());
@@ -65,8 +75,8 @@ Status library_symbol(void* handle, const char* symbol_name,
 }
 
 template <typename R, typename... Args>
-Status bind_func(void* handle, const char* name,
-                std::function<R(Args...)>* func) {
+Status bind_func(
+    void* handle, const char* name, std::function<R(Args...)>* func) {
   void* symbol_ptr = nullptr;
   RETURN_NOT_OK(library_symbol(handle, name, &symbol_ptr));
   *func = reinterpret_cast<R (*)(Args...)>(symbol_ptr);
@@ -85,7 +95,13 @@ class LibHDFS {
   }
 
   // The status, if any, from failure to load.
-  Status status() { return status_; }
+  Status status() {
+    return status_;
+  }
+
+  Status close() {
+    return close_library(handle_);
+  }
 
   std::function<hdfsFS(hdfsBuilder*)> hdfsBuilderConnect;
   std::function<hdfsBuilder*()> hdfsNewBuilder;
@@ -144,8 +160,7 @@ class LibHDFS {
     // in the libhdfs documentation.
     char* hdfs_home = getenv("HADOOP_HOME");
     if (hdfs_home == nullptr) {
-      status_ = Status::Error (
-          "Environment variable HADOOP_HOME not set");
+      status_ = Status::Error("Environment variable HADOOP_HOME not set");
       return;
     }
 #if defined(__APPLE__)
@@ -177,10 +192,18 @@ Status try_bind() {
   return fs->test();
 }
 
+HDFS::HDFS()
+    : libhdfs_(LibHDFS::load()) {
+}
 
-HDFS::HDFS() : libhdfs_(LibHDFS::load()) {}
-
-HDFS::~HDFS() {}
+HDFS::~HDFS() {
+  if (libhdfs_) {
+    Status st = libhdfs_->close();
+    if (!st.ok()) {
+      LOG_STATUS(st);
+    }
+  }
+}
 
 Status HDFS::test() {
   hdfsFS fs = nullptr;
@@ -237,8 +260,8 @@ Status HDFS::move_dir(const URI& old_uri, const URI& new_uri) {
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
 
-  int ret =
-      libhdfs_->hdfsRename(fs, old_uri.to_path().c_str(), new_uri.to_path().c_str());
+  int ret = libhdfs_->hdfsRename(
+      fs, old_uri.to_path().c_str(), new_uri.to_path().c_str());
   if (ret < 0) {
     return LOG_STATUS(Status::IOError(
         std::string("Cannot move directory ") + old_uri.to_string() + " to " +
@@ -256,7 +279,8 @@ bool HDFS::is_dir(const URI& uri) {
   }
   int exists = libhdfs_->hdfsExists(fs, uri.to_path().c_str());
   if (exists == 0) {  // success
-    hdfsFileInfo* fileInfo = libhdfs_->hdfsGetPathInfo(fs, uri.to_path().c_str());
+    hdfsFileInfo* fileInfo =
+        libhdfs_->hdfsGetPathInfo(fs, uri.to_path().c_str());
     if (fileInfo == nullptr) {
       return false;
     }
@@ -281,7 +305,8 @@ bool HDFS::is_file(const URI& uri) {
 
   int ret = libhdfs_->hdfsExists(fs, uri.to_path().c_str());
   if (!ret) {
-    hdfsFileInfo* fileInfo = libhdfs_->hdfsGetPathInfo(fs, uri.to_path().c_str());
+    hdfsFileInfo* fileInfo =
+        libhdfs_->hdfsGetPathInfo(fs, uri.to_path().c_str());
     if (fileInfo == NULL) {
       return false;
     }
@@ -400,7 +425,8 @@ Status HDFS::write_to_file(
     curSize = (constants::max_write_bytes < nrRemaining) ?
                   constants::max_write_bytes :
                   static_cast<tSize>(nrRemaining);
-    if ((written = libhdfs_->hdfsWrite(fs, writeFile, buffer, curSize)) != curSize) {
+    if ((written = libhdfs_->hdfsWrite(fs, writeFile, buffer, curSize)) !=
+        curSize) {
       return LOG_STATUS(Status::IOError(
           std::string("Cannot write to file ") + uri.to_string() +
           "; File writing error"));
@@ -461,10 +487,7 @@ Status HDFS::file_size(const URI& uri, uint64_t* nbytes) {
   return Status::Ok();
 }
 
-
 // DFKJLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLKJFKDFJLDFJ:DFJLJSKLJSDKLFJS:LDJFLSDJFLSDJFLDJLFJLDJLDJF:LSDJLDFJ
-
-
 
 Status connect(hdfsFS& fs) {
   struct hdfsBuilder* builder = hdfsNewBuilder();
@@ -473,7 +496,7 @@ Status connect(hdfsFS& fs) {
         "Failed to connect to hdfs, could not create connection builder"));
   }
   // TODO: builder options
-  //hdfsBuilderSetForceNewInstance(builder);
+  // hdfsBuilderSetForceNewInstance(builder);
   hdfsBuilderSetNameNode(builder, "default");
   fs = hdfsBuilderConnect(builder);
   if (fs == nullptr) {

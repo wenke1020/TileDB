@@ -72,7 +72,7 @@ struct HDFSFx {
 
 TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
   Status st;
-  
+
   auto hdfs = new hdfs::HDFS();
   st = hdfs->create_dir(URI("hdfs:///tiledb_test_dir"));
   CHECK(st.ok());
@@ -88,7 +88,7 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
 
   st = hdfs->delete_file(URI("hdfs:///tiledb_test_file"));
   CHECK(st.ok());
-  
+
   std::cout << "creating a file..." << std::endl;
   st = hdfs->create_file(URI("hdfs:///tiledb_test_dir/tiledb_test_file"));
   std::cout << "created a file" << std::endl;
@@ -106,7 +106,7 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
       buffer_size);
   CHECK(st.ok());
   std::cout << "wrote a file..." << std::endl;
-  
+
   std::cout << "reading a file..." << std::endl;
   auto read_buffer = new char[26];
   st = hdfs->read_from_file(
@@ -137,18 +137,18 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
     }
   }
   CHECK(allok == true);
-  
+
   std::cout << "lsing a file..." << std::endl;
   std::vector<std::string> paths;
   st = hdfs->ls(URI("hdfs:///"), &paths);
   CHECK(st.ok());
   CHECK(paths.size() > 0);
   std::cout << "ls ..." << std::endl;
-  
+
   std::cout << "file size.. " << std::endl;
   uint64_t nbytes = 0;
-  st = hdfs->file_size(
-      URI("hdfs:///tiledb_test_dir/tiledb_test_file"), &nbytes);
+  st =
+      hdfs->file_size(URI("hdfs:///tiledb_test_dir/tiledb_test_file"), &nbytes);
   CHECK(st.ok());
   CHECK(nbytes == buffer_size);
   std::cout << "size " << std::endl;

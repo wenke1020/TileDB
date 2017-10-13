@@ -57,7 +57,7 @@ class HDFS {
  public:
   HDFS();
   ~HDFS();
-  
+
   Status test();
 
   Status create_dir(const URI& uri);
@@ -75,15 +75,15 @@ class HDFS {
   Status delete_file(const URI& uri);
 
   Status read_from_file(
-    const URI& uri, off_t offset, void* buffer, uint64_t length);
+      const URI& uri, off_t offset, void* buffer, uint64_t length);
 
   Status write_to_file(
-    const URI& uri, const void* buffer, const uint64_t length);
+      const URI& uri, const void* buffer, const uint64_t length);
 
   Status ls(const URI& uri, std::vector<std::string>* paths);
 
   Status file_size(const URI& uri, uint64_t* nbytes);
- 
+
  private:
   Status connect(hdfsFS* fs);
   LibHDFS* libhdfs_;
