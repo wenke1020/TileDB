@@ -182,40 +182,49 @@ class LibHDFS {
   void* handle_ = nullptr;
 };
 
-Status try_bind() {
-  auto libhdfs_ = hdfs::LibHDFS::load();
-  if (!libhdfs_->status().ok()) {
-    std::cout << "LIBHDFS error: " << libhdfs_->status().to_string() << "\n";
-  } else {
-    std::cout << "LIBHDFS success!\n";
+
+std::unique_ptr<HdfsFSCache> HdfsFSCache::instance_;
+
+Status HdfsFSCache::init() {
+  if (HdfsFSCache::instance_.get() == nullptr) {
+    HdfsFSCache::instance_.reset(new HdfsFSCache());
   }
-  auto fs = new HDFS();
-  return fs->test();
+  return Status::Ok();
+}
+
+Status HdfsFSCache::get_connection(LibHDFS* libhdfs, hdfsFS* fs) {
+  assert(libhdfs != nullptr);
+  std::lock_guard<std::mutex> l(lock_);
+  HdfsFSMap::iterator iter = fs_map_.find("default");
+  if (iter == fs_map_.end()) {
+    std::cout << "get_connection() new fs...\n";
+    RETURN_NOT_OK(libhdfs->status());
+    hdfsBuilder* builder = libhdfs->hdfsNewBuilder();
+    libhdfs->hdfsBuilderSetNameNode(builder, "default");
+    *fs = libhdfs->hdfsBuilderConnect(builder);
+    if (*fs == nullptr) {
+      return Status::Error(strerror(errno));
+    }
+    fs_map_.insert(std::make_pair("default", *fs));
+  } else {
+    std::cout << "get_connection() from cache..\n";
+    *fs = iter->second; 
+  }
+  assert(*fs != nullptr);
+  return Status::Ok(); 
 }
 
 HDFS::HDFS()
     : libhdfs_(LibHDFS::load()) {
+  HdfsFSCache::init();
 }
 
-HDFS::~HDFS() {
-  /**
-  if (libhdfs_) {
-    Status st = libhdfs_->close();
-    if (!st.ok()) {
-      LOG_STATUS(st);
-    }
-  }
-  **/
-}
-
-Status HDFS::test() {
-  hdfsFS fs = nullptr;
-  Status st = connect(&fs);
-  return st;
-}
+HDFS::~HDFS() {}
 
 Status HDFS::connect(hdfsFS* fs) {
   RETURN_NOT_OK(libhdfs_->status());
+  return HdfsFSCache::instance()->get_connection(libhdfs_, fs);
+  /**
   hdfsBuilder* builder = libhdfs_->hdfsNewBuilder();
   // TODO: allow customizing namenode
   libhdfs_->hdfsBuilderSetNameNode(builder, "default");
@@ -224,6 +233,7 @@ Status HDFS::connect(hdfsFS* fs) {
     return Status::Error(strerror(errno));
   }
   return Status::Ok();
+  **/
 }
 
 Status HDFS::create_dir(const URI& uri) {

@@ -36,6 +36,9 @@
 #include <sys/types.h>
 #include <string>
 #include <vector>
+#include <map>
+#include <mutex>
+#include <memory>
 
 #include "buffer.h"
 #include "status.h"
@@ -49,7 +52,26 @@ namespace hdfs {
 
 class LibHDFS;
 
-Status try_bind();
+class HdfsFSCache {
+  public:
+    typedef std::map<std::string, hdfsFS> HdfsFSMap;
+
+    static HdfsFSCache* instance() { return HdfsFSCache::instance_.get(); }
+    static Status init();
+
+    Status get_local_connection(hdfsFS* fs);
+    Status get_connection(LibHDFS* libhdfs, hdfsFS* fs);
+
+  private:
+    static std::unique_ptr<HdfsFSCache> instance_;
+    
+    std::mutex lock_;
+    HdfsFSMap fs_map_;
+
+    HdfsFSCache() {}
+    HdfsFSCache(HdfsFSCache const& l); // disable copy ctor
+    HdfsFSCache& operator=(HdfsFSCache const& l); // disable assignment 
+};
 
 class HDFS {
  public:
