@@ -44,17 +44,10 @@ namespace tiledb {
 /* ********************************* */
 
 VFS::VFS() {
-#ifdef HAVE_HDFS
-  Status st = hdfs::connect(hdfs_);
-#endif
+  hdfs_ =  new hdfs::HDFS();
 }
 
 VFS::~VFS() {
-#ifdef HAVE_HDFS
-  if (hdfs_ != nullptr) {
-    // Status st = hdfs::disconnect(hdfs_);
-  }
-#endif
 }
 
 /* ********************************* */
@@ -76,7 +69,7 @@ Status VFS::create_dir(const URI& uri) const {
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::create_dir(hdfs_, uri);
+    return hdfs_->create_dir(uri);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -91,7 +84,7 @@ Status VFS::create_file(const URI& uri) const {
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::create_file(hdfs_, uri);
+    return hdfs_->create_file(uri);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -106,7 +99,7 @@ Status VFS::delete_file(const URI& uri) const {
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::delete_file(hdfs_, uri);
+    return hdfs_->delete_file(uri);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -158,7 +151,7 @@ Status VFS::file_size(const URI& uri, uint64_t* size) const {
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::file_size(hdfs_, uri, size);
+    return hdfs_->file_size(uri, size);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -173,7 +166,7 @@ bool VFS::is_dir(const URI& uri) const {
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::is_dir(hdfs_, uri);
+    return hdfs_->is_dir(uri);
 #else
     return false;
 #endif
@@ -187,7 +180,7 @@ bool VFS::is_file(const URI& uri) const {
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::is_file(hdfs_, uri);
+    return hdfs_->is_file(uri);
 #else
     return false;
 #endif
@@ -201,7 +194,7 @@ Status VFS::ls(const URI& parent, std::vector<URI>* uris) const {
     RETURN_NOT_OK(posix::ls(parent.to_path(), &files));
   } else if (parent.is_hdfs()) {
 #ifdef HAVE_HDFS
-    RETURN_NOT_OK(hdfs::ls(hdfs_, parent, &files));
+    RETURN_NOT_OK(hdfs_->ls(parent, &files));
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -221,7 +214,7 @@ Status VFS::move_dir(const URI& old_uri, const URI& new_uri) {
   }
   if (old_uri.is_hdfs() && new_uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::move_dir(hdfs_, old_uri, new_uri);
+    return hdfs_->move_dir(old_uri, new_uri);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -249,7 +242,7 @@ Status VFS::read_from_file(
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::read_from_file(hdfs_, uri, offset, buffer, nbytes);
+    return hdfs_->read_from_file(uri, offset, buffer, nbytes);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif
@@ -280,7 +273,7 @@ Status VFS::write_to_file(
   }
   if (uri.is_hdfs()) {
 #ifdef HAVE_HDFS
-    return hdfs::write_to_file(hdfs_, uri, buffer, buffer_size);
+    return hdfs_->write_to_file(uri, buffer, buffer_size);
 #else
     return Status::VFSError("TileDB was built without HDFS support");
 #endif

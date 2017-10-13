@@ -72,8 +72,85 @@ struct HDFSFx {
 
 TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
   Status st;
-  hdfsFS fs;
+  
+  auto hdfs = new hdfs::HDFS();
+  st = hdfs->create_dir(URI("hdfs:///tiledb_test_dir"));
+  CHECK(st.ok());
 
+  CHECK(hdfs->is_dir(URI("hdfs:///tiledb_test_dir")));
+
+  st = hdfs->create_dir(URI("hdfs:///tiledb_test_dir"));
+  CHECK(!st.ok());
+
+  st = hdfs->create_file(URI("hdfs:///tiledb_test_file"));
+  CHECK(st.ok());
+  CHECK(hdfs->is_file(URI("hdfs:///tiledb_test_file")));
+
+  st = hdfs->delete_file(URI("hdfs:///tiledb_test_file"));
+  CHECK(st.ok());
+
+  st = hdfs->create_file(URI("hdfs:///tiledb_test_dir/tiledb_test_file"));
+  CHECK(st.ok());
+
+  tSize buffer_size = 100000;
+  auto write_buffer = new char[buffer_size];
+  for (int i = 0; i < buffer_size; i++) {
+    write_buffer[i] = 'a' + (i % 26);
+  }
+  st = hdfs->write_to_file(
+      URI("hdfs:///tiledb_test_dir/tiledb_test_file"),
+      write_buffer,
+      buffer_size);
+  CHECK(st.ok());
+
+  auto read_buffer = new char[26];
+  st = hdfs->read_from_file(
+      URI("hdfs:///tiledb_test_dir/tiledb_test_file"), 0, read_buffer, 26);
+  CHECK(st.ok());
+
+  bool allok = true;
+  for (int i = 0; i < 26; i++) {
+    if (read_buffer[i] != static_cast<char>('a' + i)) {
+      allok = false;
+      break;
+    }
+  }
+  CHECK(allok == true);
+
+  st = hdfs->read_from_file(
+      URI("hdfs:///tiledb_test_dir/tiledb_test_file"), 11, read_buffer, 26);
+  CHECK(st.ok());
+
+  allok = true;
+  for (int i = 0; i < 26; ++i) {
+    if (read_buffer[i] != static_cast<char>('a' + (i + 11) % 26)) {
+      allok = false;
+      break;
+    }
+  }
+  CHECK(allok == true);
+
+  std::vector<std::string> paths;
+  st = hdfs->ls(URI("hdfs:///"), &paths);
+  CHECK(st.ok());
+  CHECK(paths.size() > 0);
+
+  uint64_t nbytes = 0;
+  st = hdfs->file_size(
+      URI("hdfs:///tiledb_test_dir/tiledb_test_file"), &nbytes);
+  CHECK(st.ok());
+  CHECK(nbytes == buffer_size);
+
+  st = hdfs->delete_dir(URI("hdfs:///tiledb_test_dir/i_dont_exist"));
+  CHECK(!st.ok());
+
+  st = hdfs->delete_file(URI("hdfs:///tiledb_test_dir/tiledb_test_file"));
+  CHECK(st.ok());
+
+  st = hdfs->delete_dir(URI("hdfs:///tiledb_test_dir"));
+  CHECK(st.ok());
+
+  /**
   st = hdfs::connect(fs);
   REQUIRE(st.ok());
 
@@ -156,4 +233,5 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
 
   st = hdfs::disconnect(fs);
   CHECK(st.ok());
+  **/
 }

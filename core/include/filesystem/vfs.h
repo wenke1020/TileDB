@@ -42,6 +42,7 @@
 
 #ifdef HAVE_HDFS
 #include "hdfs.h"
+#include "hdfs_filesystem.h"
 #endif
 
 namespace tiledb {
@@ -215,9 +216,7 @@ class VFS {
   /* ********************************* */
   /*         PRIVATE ATTRIBUTES        */
   /* ********************************* */
-#ifdef HAVE_HDFS
-  hdfsFS hdfs_;
-#endif
+  hdfs::HDFS* hdfs_;
 };
 
 }  // namespace tiledb
