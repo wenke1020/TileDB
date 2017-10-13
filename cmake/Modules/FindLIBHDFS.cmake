@@ -49,42 +49,44 @@ if(NOT LIBHDFS_FOUND)
 	     "/usr/include")
     endif()
 
-    message(STATUS "Searching for JVM and JNI paths")
-    find_package(JNI)
+    #message(STATUS "Searching for JVM and JNI paths")
+    #find_package(JNI)
 
-    if(JAVA_JVM_LIBRARY)
-        message(STATUS "Found libjvm library: ${JAVA_JVM_LIBRARY}")
-    else()
-        message(STATUS "libjvm library not found")
-    endif()
+    #if(JAVA_JVM_LIBRARY)
+    #    message(STATUS "Found libjvm library: ${JAVA_JVM_LIBRARY}")
+    #else()
+    #    message(STATUS "libjvm library not found")
+    #endif()
 
     find_path(LIBHDFS_INCLUDE_DIR NAMES hdfs.h PATHS ${POSSILE_PATHS} NO_DEFAULT_PATH)
 
-    find_library(LIBHDFS_LIBRARY NAMES
-        libhdfs${CMAKE_SHARED_LIBRARY_SUFFIX}
-	libhdfs${CMAKE_STATIC_LIBRARY_SUFFIX}
-	PATHS ${POSSILE_PATHS}
-        NO_DEFAULT_PATH)
+    #find_library(LIBHDFS_LIBRARY NAMES
+    #    libhdfs${CMAKE_SHARED_LIBRARY_SUFFIX}
+    #	libhdfs${CMAKE_STATIC_LIBRARY_SUFFIX}
+    #	PATHS ${POSSILE_PATHS}
+    #    NO_DEFAULT_PATH)
 
-    if(LIBHDFS_LIBRARY)
-	message(STATUS "Found libhdfs library: ${LIBHDFS_LIBRARY}")
-    else()
-        message(STATUS "libhdfs library not found")
-    endif()
+    #if(LIBHDFS_LIBRARY)
+    #	message(STATUS "Found libhdfs library: ${LIBHDFS_LIBRARY}")
+    #else()
+    #    message(STATUS "libhdfs library not found")
+    #endif()
 
     if(LIBHDFS_INCLUDE_DIR)
 	message(STATUS "Found hdfs.h header file: ${LIBHDFS_INCLUDE_DIR}")
-    else()
-        message(STATUS "hdfs.h header file not found")
-    endif()
-
-    if(JAVA_JVM_LIBRARY AND LIBHDFS_LIBRARY AND LIBHDFS_INCLUDE_DIR)
         set(LIBHDFS_FOUND TRUE)
     else()
+        message(STATUS "hdfs.h header file not found")
 	set(LIBHDFS_FOUND FALSE)
     endif()
+
+    #if(JAVA_JVM_LIBRARY AND LIBHDFS_LIBRARY AND LIBHDFS_INCLUDE_DIR)
+    #    set(LIBHDFS_FOUND TRUE)
+    #else()
+    #	set(LIBHDFS_FOUND FALSE)
+    #endif()
 endif()
 
-if(LIBHDFS_FIND_REQUIRED AND NOT LIBHDFS_FOUND)
-    message(FATAL_ERROR "Could not find the libhdfs library.")
-endif()
+#if(LIBHDFS_FIND_REQUIRED AND NOT LIBHDFS_FOUND)
+#    message(FATAL_ERROR "Could not find the libhdfs library.")
+#endif()

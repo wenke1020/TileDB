@@ -69,22 +69,22 @@ include_directories(${BZIP2_INCLUDE_DIR})
 set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${BZIP2_LIBRARIES})
 
 # Find optional library dependencies
-if(USE_HDFS AND USE_HDFS3)
-  message(FATAL_ERROR "HDFS support must be provided through libhdfs or libhdfs3 exclusively")
-endif()
+#if(USE_HDFS AND USE_HDFS3)
+#  message(FATAL_ERROR "HDFS support must be provided through libhdfs or libhdfs3 exclusively")
+#endif()
 
-if(USE_HDFS3)
-  find_package(LIBHDFS3 REQUIRED)
-  include_directories(${LIBHDFS3_INCLUDE_DIR})
-  set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${LIBHDFS3_LIBRARY})
-endif()
+#if(USE_HDFS3)
+#  find_package(LIBHDFS3 REQUIRED)
+#  include_directories(${LIBHDFS3_INCLUDE_DIR})
+#  set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${LIBHDFS3_LIBRARY})
+#endif()
 
 if(USE_HDFS)
   find_package(LIBHDFS REQUIRED)
   include_directories(${LIBHDFS_INCLUDE_DIR})
   # This variable is defined in FindJNI module included in the FindHDFS.cmake file
-  set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${JAVA_JVM_LIBRARY})
-  set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${LIBHDFS_LIBRARY})
+#  set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${JAVA_JVM_LIBRARY})
+#  set(TILEDB_LIB_DEPENDENCIES ${TILEDB_LIB_DEPENDENCIES} ${LIBHDFS_LIBRARY})
 endif()
 
 # Set C++ 2011 flag
