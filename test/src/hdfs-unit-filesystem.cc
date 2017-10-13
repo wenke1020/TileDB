@@ -88,8 +88,10 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
 
   st = hdfs->delete_file(URI("hdfs:///tiledb_test_file"));
   CHECK(st.ok());
-
+  
+  std::cout << "creating a file..." << std::endl;
   st = hdfs->create_file(URI("hdfs:///tiledb_test_dir/tiledb_test_file"));
+  std::cout << "created a file" << std::endl;
   CHECK(st.ok());
 
   tSize buffer_size = 100000;
@@ -97,15 +99,19 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
   for (int i = 0; i < buffer_size; i++) {
     write_buffer[i] = 'a' + (i % 26);
   }
+  std::cout << "writing a file..." << std::endl;
   st = hdfs->write_to_file(
       URI("hdfs:///tiledb_test_dir/tiledb_test_file"),
       write_buffer,
       buffer_size);
   CHECK(st.ok());
-
+  std::cout << "wrote a file..." << std::endl;
+  
+  std::cout << "reading a file..." << std::endl;
   auto read_buffer = new char[26];
   st = hdfs->read_from_file(
       URI("hdfs:///tiledb_test_dir/tiledb_test_file"), 0, read_buffer, 26);
+  std::cout << "read a file..." << std::endl;
   CHECK(st.ok());
 
   bool allok = true;
@@ -117,9 +123,11 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
   }
   CHECK(allok == true);
 
+  std::cout << "reading a file..." << std::endl;
   st = hdfs->read_from_file(
       URI("hdfs:///tiledb_test_dir/tiledb_test_file"), 11, read_buffer, 26);
   CHECK(st.ok());
+  std::cout << "read a file..." << std::endl;
 
   allok = true;
   for (int i = 0; i < 26; ++i) {
@@ -129,26 +137,36 @@ TEST_CASE_METHOD(HDFSFx, "Test HDFS filesystem", "[hdfs]") {
     }
   }
   CHECK(allok == true);
-
+  
+  std::cout << "lsing a file..." << std::endl;
   std::vector<std::string> paths;
   st = hdfs->ls(URI("hdfs:///"), &paths);
   CHECK(st.ok());
   CHECK(paths.size() > 0);
-
+  std::cout << "ls ..." << std::endl;
+  
+  std::cout << "file size.. " << std::endl;
   uint64_t nbytes = 0;
   st = hdfs->file_size(
       URI("hdfs:///tiledb_test_dir/tiledb_test_file"), &nbytes);
   CHECK(st.ok());
   CHECK(nbytes == buffer_size);
+  std::cout << "size " << std::endl;
 
+  std::cout << "delete dir.. " << std::endl;
   st = hdfs->delete_dir(URI("hdfs:///tiledb_test_dir/i_dont_exist"));
   CHECK(!st.ok());
+  std::cout << "whoops " << std::endl;
 
+  std::cout << "delete file.. " << std::endl;
   st = hdfs->delete_file(URI("hdfs:///tiledb_test_dir/tiledb_test_file"));
   CHECK(st.ok());
+  std::cout << "deleted file.. " << std::endl;
 
+  std::cout << "delete dir.. " << std::endl;
   st = hdfs->delete_dir(URI("hdfs:///tiledb_test_dir"));
   CHECK(st.ok());
+  std::cout << "deleted.. " << std::endl;
 
   /**
   st = hdfs::connect(fs);

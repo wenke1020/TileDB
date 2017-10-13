@@ -95,6 +95,7 @@ class LibHDFS {
       hdfsBuilderSetKerbTicketCachePath;
   std::function<int(hdfsFS, hdfsFile)> hdfsCloseFile;
   std::function<tSize(hdfsFS, hdfsFile, tOffset, void*, tSize)> hdfsPread;
+  std::function<tSize(hdfsFS, hdfsFile, void*, tSize)> hdfsRead;
   std::function<tSize(hdfsFS, hdfsFile, const void*, tSize)> hdfsWrite;
   std::function<int(hdfsFS, hdfsFile)> hdfsHFlush;
   std::function<int(hdfsFS, hdfsFile)> hdfsHSync;
@@ -122,6 +123,7 @@ class LibHDFS {
       BIND_HDFS_FUNC(hdfsBuilderSetKerbTicketCachePath);
       BIND_HDFS_FUNC(hdfsCloseFile);
       BIND_HDFS_FUNC(hdfsPread);
+      BIND_HDFS_FUNC(hdfsRead);
       BIND_HDFS_FUNC(hdfsWrite);
       BIND_HDFS_FUNC(hdfsHFlush);
       BIND_HDFS_FUNC(hdfsHSync);
@@ -342,7 +344,7 @@ Status HDFS::read_from_file(
   do {
     tSize nbytes = (bytes_to_read <= INT_MAX) ? bytes_to_read : INT_MAX;
     tSize bytes_read =
-        hdfsRead(fs, readFile, static_cast<void*>(buffptr), nbytes);
+        libhdfs_->hdfsRead(fs, readFile, static_cast<void*>(buffptr), nbytes);
     if (bytes_read < 0) {
       return LOG_STATUS(Status::IOError(
           "Cannot read from file " + uri.to_string() + "; File reading error"));
