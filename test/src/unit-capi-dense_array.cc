@@ -65,7 +65,7 @@ struct DenseArrayFx {
 
   // Array metadata object under test
   tiledb_array_metadata_t* array_metadata_;
-
+  
   // TileDB context
   tiledb_ctx_t* ctx_;
 
@@ -106,7 +106,7 @@ struct DenseArrayFx {
 #endif
     return (system(cmd.c_str()) == 0);
   }
-
+  
   bool remove_dir(std::string path) {
 #ifdef HAVE_HDFS
     std::string cmd = std::string("hadoop fs -rm -r -f ") + path;

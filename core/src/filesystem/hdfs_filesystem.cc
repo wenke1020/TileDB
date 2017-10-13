@@ -206,7 +206,6 @@ HDFS::~HDFS() {
 Status HDFS::test() {
   hdfsFS fs = nullptr;
   Status st = connect(&fs);
-  std::cout << "connection result: " << st.to_string() << std::endl;
   return st;
 }
 
@@ -223,7 +222,6 @@ Status HDFS::connect(hdfsFS* fs) {
 }
 
 Status HDFS::create_dir(const URI& uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
   if (is_dir(uri)) {
@@ -241,7 +239,6 @@ Status HDFS::create_dir(const URI& uri) {
 
 // delete the directory with the given path
 Status HDFS::delete_dir(const URI& uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
 
@@ -254,7 +251,6 @@ Status HDFS::delete_dir(const URI& uri) {
 }
 
 Status HDFS::move_dir(const URI& old_uri, const URI& new_uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
 
@@ -269,7 +265,6 @@ Status HDFS::move_dir(const URI& old_uri, const URI& new_uri) {
 }
 
 bool HDFS::is_dir(const URI& uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   Status st = connect(&fs);
   if (!st.ok()) {
@@ -294,7 +289,6 @@ bool HDFS::is_dir(const URI& uri) {
 }
 
 bool HDFS::is_file(const URI& uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   Status st = connect(&fs);
   if (!st.ok()) {
@@ -320,7 +314,6 @@ bool HDFS::is_file(const URI& uri) {
 }
 
 Status HDFS::create_file(const URI& uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
 
@@ -342,7 +335,6 @@ Status HDFS::create_file(const URI& uri) {
 }
 
 Status HDFS::delete_file(const URI& uri) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
   int ret = libhdfs_->hdfsDelete(fs, uri.to_path().c_str(), 0);
@@ -355,20 +347,16 @@ Status HDFS::delete_file(const URI& uri) {
 
 Status HDFS::read_from_file(
     const URI& uri, off_t offset, void* buffer, uint64_t length) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
-  std::cout << "DEBUG: " << __func__ << " CONNECTED " << std::endl;
   hdfsFile readFile =
       libhdfs_->hdfsOpenFile(fs, uri.to_path().c_str(), O_RDONLY, length, 0, 0);
-  std::cout << "DEBUG: " << __func__ << " OPENED " << std::endl;
   if (!readFile) {
     return LOG_STATUS(Status::IOError(
         std::string("Cannot read file ") + uri.to_string() +
         ": file open error"));
   }
   int ret = libhdfs_->hdfsSeek(fs, readFile, (tOffset)offset);
-  std::cout << "DEBUG: " << __func__ << " SEEK " << std::endl;
   if (ret < 0) {
     return LOG_STATUS(Status::IOError(
         std::string("Cannot seek to offset ") + uri.to_string()));
@@ -388,20 +376,17 @@ Status HDFS::read_from_file(
     assert(bytes_read >= 0);
   } while (bytes_to_read > 0);
 
-  std::cout << "DEBUG: " << __func__ << " READ " << std::endl;
   // Close file
   if (libhdfs_->hdfsCloseFile(fs, readFile)) {
     return LOG_STATUS(Status::IOError(
         std::string("Cannot read from file ") + uri.to_string() +
         "; File closing error"));
   }
-  std::cout << "DEBUG: " << __func__ << " CLOSE " << std::endl;
   return Status::Ok();
 }
 
 Status HDFS::write_to_file(
     const URI& uri, const void* buffer, const uint64_t length) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
   int flags = is_file(uri) ? O_WRONLY | O_APPEND : O_WRONLY;
@@ -440,7 +425,6 @@ Status HDFS::write_to_file(
 }
 
 Status HDFS::ls(const URI& uri, std::vector<std::string>* paths) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
 
@@ -465,7 +449,6 @@ Status HDFS::ls(const URI& uri, std::vector<std::string>* paths) {
 }
 
 Status HDFS::file_size(const URI& uri, uint64_t* nbytes) {
-  std::cout << "DEBUG: " << __func__ << std::endl;
   hdfsFS fs = nullptr;
   RETURN_NOT_OK(connect(&fs));
 
