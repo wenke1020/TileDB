@@ -98,7 +98,10 @@ class LibHDFS {
   }
 
   Status close() {
-    return close_library(handle_);
+    if (handle_) {
+      return close_library(handle_);
+    }
+    Status::Ok();
   }
 
   std::function<hdfsFS(hdfsBuilder*)> hdfsBuilderConnect;
@@ -195,12 +198,14 @@ HDFS::HDFS()
 }
 
 HDFS::~HDFS() {
+  /**
   if (libhdfs_) {
     Status st = libhdfs_->close();
     if (!st.ok()) {
       LOG_STATUS(st);
     }
   }
+  **/
 }
 
 Status HDFS::test() {

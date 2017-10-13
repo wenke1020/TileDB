@@ -611,7 +611,7 @@ struct DenseArrayFx {
  * to row_id*dim1+col_id. Top left corner is always 4,4.
  */
 TEST_CASE_METHOD(
-    DenseArrayFx, "C API: Test random dense sorted reads", "[dense]") {
+    DenseArrayFx, "DENSE C API: Test random dense sorted reads", "[dense]") {
   // Error code
   int rc;
 
@@ -698,7 +698,7 @@ TEST_CASE_METHOD(
  */
 
 TEST_CASE_METHOD(
-    DenseArrayFx, "C API: Test random dense sorted writes", "[dense]") {
+    DenseArrayFx, "DENSE C API: Test random dense sorted writes", "[dense]") {
   // Error code
   int rc;
 
@@ -786,7 +786,7 @@ TEST_CASE_METHOD(
 /**
  * Test random updates in a 2D dense array.
  */
-TEST_CASE_METHOD(DenseArrayFx, "C API: Test random dense updates", "[dense]") {
+TEST_CASE_METHOD(DenseArrayFx, "DENSE C API: Test random dense updates", "[dense]") {
   // Error code
   int rc;
 
