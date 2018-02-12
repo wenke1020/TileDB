@@ -60,7 +60,7 @@ class Context {
   /** Constructor. */
   Context();
 
-  /** Constructor with config paramters. */
+  /** Constructor with config parameters. */
   explicit Context(const Config &config);
 
   /* ********************************* */
