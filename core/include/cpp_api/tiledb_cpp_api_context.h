@@ -75,10 +75,10 @@ class Context {
    */
   void handle_error(int rc) const;
 
-  /** Returns the C TileDB context object. */
+  /** Returns the C TileDB context object struct. */
   std::shared_ptr<tiledb_ctx_t> ptr() const;
 
-  /** Auxiliary operator for getting the underlying C TileDB object. */
+  /** Auxiliary operator for getting the underlying C TileDB object struct. */
   operator tiledb_ctx_t *() const;
 
   /**
@@ -100,7 +100,7 @@ class Context {
    * @param fs
    */
   bool is_supported_fs(tiledb_filesystem_t fs) const {
-    int ret;
+    int ret = 0;
     handle_error(tiledb_ctx_is_supported_fs(ctx_.get(), fs, &ret));
     return ret != 0;
   }

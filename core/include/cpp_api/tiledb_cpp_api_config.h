@@ -48,7 +48,7 @@ namespace impl {
 struct ConfigProxy;
 }
 
-/** Carries configuration parameters. */
+/** Manages configuration parameters. */
 class Config {
  public:
   using iterator = impl::ConfigIter;
@@ -60,7 +60,7 @@ class Config {
   Config();
 
   /**
-   * Constructor that takes as input a filename (URI) that stores the config
+   * Constructor that takes as input a file path (URI) that stores the config
    * parameters. The file must have the following (text) format:
    *
    * <parameter> <value>
@@ -70,10 +70,10 @@ class Config {
    *
    * See `set` for the various TileDB config parameters and allowed values.
    *
-   * @param filename The name of the file where the parameters will be read
+   * @param filepath The uri of the file where the parameters will be read
    *     from.
    */
-  explicit Config(const std::string &filename);
+  explicit Config(const std::string &filepath);
 
   /** Constructor from a C config object. */
   explicit Config(tiledb_config_t **config);
@@ -138,12 +138,12 @@ class Config {
   /** Unsets a config parameter. */
   Config &unset(const std::string &param);
 
-  /** Iterate over params starting with a prefix **/
+  /** Iterate over parameters starting with a given prefix **/
   iterator begin(const std::string &prefix) {
     return iterator{*this, prefix, false};
   }
 
-  /** Iterate over all params. **/
+  /** Iterate over all parameters **/
   iterator begin() {
     return iterator{*this, "", false};
   }
