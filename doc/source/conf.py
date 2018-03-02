@@ -27,13 +27,18 @@ import os
 readthedocs = os.environ.get('READTHEDOCS', None) == 'True'
 # If so, build the Doxygen XML files.
 if readthedocs:
-    # Install CMake
+    # Install Miniconda
     import wget
-    wget.download('https://cmake.org/files/v3.9/cmake-3.9.4-Linux-x86_64.tar.gz', out='/tmp/')
-    subprocess.check_call('tar xzf cmake-3.9.4-Linux-x86_64.tar.gz -C /tmp', shell=True)
+    wget.download('https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh', out='/tmp/miniconda.sh')
+    subprocess.check_call('bash /tmp/miniconda.sh -b -p $HOME/miniconda', shell=True)
+    # Install deps
+    subprocess.check_call('''
+        export PATH=$HOME/miniconda/bin:$PATH
+        conda install -y cmake
+    ''', shell=True)
     # Build docs
     subprocess.check_call('''
-        export PATH=/tmp/cmake-3.9.4-Linux-x86_64/bin:$PATH
+        export PATH=$HOME/miniconda/bin:$PATH
         mkdir ../../build;
         cd ../../build;
         ../bootstrap --disable-deps;
