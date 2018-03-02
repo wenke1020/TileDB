@@ -45,6 +45,10 @@ if(APPLE)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
 
+###########################################################
+# Main targets
+###########################################################
+
 set(TILEDB_LIB_DEPENDENCIES)
 
 # Find required library dependencies
