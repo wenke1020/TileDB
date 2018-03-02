@@ -33,7 +33,7 @@ if readthedocs:
     subprocess.check_call('tar xzf cmake-3.9.4-Linux-x86_64.tar.gz', shell=True)
     # Build docs
     subprocess.check_call('''
-        export PATH=cmake-3.9.4-Linux-x86_64/bin:$PATH
+        export PATH=`pwd`/cmake-3.9.4-Linux-x86_64/bin:$PATH
         mkdir ../../build;
         cd ../../build;
         ../bootstrap;
