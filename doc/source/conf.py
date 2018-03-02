@@ -27,7 +27,7 @@ import os
 readthedocs = os.environ.get('READTHEDOCS', None) == 'True'
 # If so, build the Doxygen XML files.
 if readthedocs:
-    subprocess.check_call('apt-get install -y cmake')
+    subprocess.check_call('apt-get install -y cmake', shell=True)
     subprocess.check_call('mkdir ../../build; cd ../../build; ../bootstrap; make doc', shell=True)
 
 # -- General configuration ------------------------------------------------
