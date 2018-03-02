@@ -36,6 +36,7 @@ Configuration:
                                     ['"${default_prefix}"']
     --dependency=DIRs               specify the dependencies at DIRs, separated by colon 
                                     ['"${default_dependency}"']
+    --disable-deps                  disable check for required library dependencies
     --enable-sanitizer=SAN          enable sanitizer (clang only)
                                     (address|memory|thread|undefined)
     --enable-debug                  enable debug build
@@ -69,6 +70,7 @@ build_type="Release"
 tiledb_verbose="OFF"
 tiledb_hdfs="OFF"
 tiledb_s3="OFF"
+tiledb_deps="ON"
 enable_multiple=""
 while test $# != 0; do
     case "$1" in
@@ -76,6 +78,7 @@ while test $# != 0; do
                 prefix_dirs="$dir";;
     --dependency=*) dir=`arg "$1"`
                 dependency_dir="$dir";;
+    --disable-deps) tiledb_deps="OFF";;
     --enable-sanitizer=*) san=`arg "$1"`
                 sanitizer="$san";;
     --enable-debug) build_type="Debug";;
@@ -142,6 +145,7 @@ ${cmake} -DCMAKE_BUILD_TYPE=${build_type} \
     -DTILEDB_VERBOSE=${tiledb_verbose} \
     -DUSE_HDFS=${tiledb_hdfs} \
     -DUSE_S3=${tiledb_s3} \
+    -DUSE_DEPS=${tiledb_deps} \
     -DSANITIZER=${sanitizer} \
     ${source_dir} || die "failed to configure the project"
 

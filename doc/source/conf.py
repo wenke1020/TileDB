@@ -36,7 +36,7 @@ if readthedocs:
         export PATH=`pwd`/cmake-3.9.4-Linux-x86_64/bin:$PATH
         mkdir ../../build;
         cd ../../build;
-        ../bootstrap;
+        ../bootstrap --disable-deps;
         make doc;
     ''', shell=True)
 
