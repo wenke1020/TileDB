@@ -29,11 +29,11 @@ readthedocs = os.environ.get('READTHEDOCS', None) == 'True'
 if readthedocs:
     # Install CMake
     import wget
-    wget.download('https://cmake.org/files/v3.9/cmake-3.9.4-Linux-x86_64.tar.gz')
-    subprocess.check_call('tar xzf cmake-3.9.4-Linux-x86_64.tar.gz', shell=True)
+    wget.download('https://cmake.org/files/v3.9/cmake-3.9.4-Linux-x86_64.tar.gz', out='/tmp/')
+    subprocess.check_call('tar xzf cmake-3.9.4-Linux-x86_64.tar.gz -C /tmp', shell=True)
     # Build docs
     subprocess.check_call('''
-        export PATH=`pwd`/cmake-3.9.4-Linux-x86_64/bin:$PATH
+        export PATH=/tmp/cmake-3.9.4-Linux-x86_64/bin:$PATH
         mkdir ../../build;
         cd ../../build;
         ../bootstrap --disable-deps;
