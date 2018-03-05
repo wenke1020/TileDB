@@ -4,3 +4,4 @@ channels:
   - defaults
 dependencies:
   - cmake
+  - breathe==4.7.3

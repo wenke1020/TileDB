@@ -112,8 +112,8 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 # html_theme = 'bootstrap'
-# html_logo = '_static/tileDB_uppercase_600_112.png'
-# html_favicon = '_static/favicon.ico'
+html_logo = '_static/tileDB_uppercase_600_112.png'
+html_favicon = '_static/favicon.ico'
 
 # -- Options for HTMLHelp output ------------------------------------------
 
