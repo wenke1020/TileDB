@@ -50,13 +50,13 @@ def generate_sidebar(conf, conf_api):
 
         lines.append('    %s <%s>' % args)
 
-    def write_api(project, desc, link):
+    def write_api(project, desc, rst_page):
         if project != conf_api:
             if do_gen:
-                args = desc, project, version, link
-                lines.append('    %s API <%s/projects/%s/en/%s/%s.html>' % args)
+                args = desc, url_base, project, lang, version, rst_page
+                lines.append('    %s API <%s/projects/%s/%s/%s/%s.html>' % args)
         else:
-            args = desc, link
+            args = desc, rst_page
             lines.append('    %s API <%s>' % args)
 
     #
