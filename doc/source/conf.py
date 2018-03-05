@@ -5,10 +5,14 @@
 # sphinx-quickstart on Mon Feb  5 10:08:37 2018.
 #
 
+# -- Imports configuration -------------------------------------------------
 
-import subprocess
 import os
-import os.path
+import subprocess
+import sys
+from os.path import abspath, join, dirname
+
+sys.path.insert(0, abspath(join(dirname(__file__))))
 
 # -- ReadTheDocs configuration ---------------------------------------------
 
