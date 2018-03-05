@@ -3,10 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-TileDB API Reference Pages
-==========================
+TileDB Documentation
+====================
 
-Welcome to the TileDB API reference documentation. These pages contain the documentation of the TileDB API in the currently supported languages. If you're looking instead for a general introduction to TileDB including installation guidelines, tutorials and examples, please see the `main documentation site <https://docs.tiledb.io/>`_.
+TileDB is an efficient multi-dimensional array management system which introduces a novel on-disk format that can effectively store dense and sparse array data with support for fast updates. It offers numerous features, including excellent compression, high IO performance on multiple data persistence backends (e.g., HDFS and S3), and easy integration with ecosystems used by today’s data scientists (e.g., Python NumPy).
+
+TileDB is open-sourced under the permissive MIT License.
+
+Here you will find a comprehensive description of all the TileDB features, installation guides, tutorials, and API references. Enjoy!
 
 .. include:: _sidebar.rst.inc
 

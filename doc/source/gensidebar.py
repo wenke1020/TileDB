@@ -34,7 +34,7 @@ def generate_sidebar(conf, conf_api):
     def toctree(name):
         lines.extend(['.. toctree::',
                       '    :caption: %s' % name,
-                      '    :maxdepth: 2',
+                      '    :maxdepth: 1',
                       ''])
 
     def endl():
