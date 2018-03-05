@@ -1,0 +1,11 @@
+# Don't build any extra formats
+formats:
+  - none
+
+requirements_file: doc/source/requirements.txt
+
+conda:
+  file: doc/source/conda-env.yml
+
+python:
+  version: 3

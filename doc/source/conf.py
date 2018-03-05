@@ -24,20 +24,8 @@ rtd_version = rtd_version if rtd_version in ['stable', 'latest'] else 'stable'
 
 # On RTD, build the Doxygen XML files.
 if readthedocs:
-    miniconda = '%s/miniconda' % os.environ['HOME']
-    # Install Miniconda
-    if not os.path.isdir(miniconda):
-        import wget
-        wget.download('https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh', out='/tmp/miniconda.sh')
-        subprocess.check_call('bash /tmp/miniconda.sh -b -p %s' % miniconda, shell=True)
-    # Install deps
-    subprocess.check_call('''
-        export PATH=$HOME/miniconda/bin:$PATH
-        conda install -y cmake
-    ''', shell=True)
     # Build docs
     subprocess.check_call('''
-        export PATH=$HOME/miniconda/bin:$PATH
         mkdir ../../build;
         cd ../../build;
         ../bootstrap --disable-deps;

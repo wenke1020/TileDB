@@ -1,0 +1,6 @@
+name: tiledb-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cmake
