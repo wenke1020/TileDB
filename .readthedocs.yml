@@ -2,10 +2,10 @@
 formats:
   - none
 
-requirements_file: requirements.txt
+requirements_file: doc/source/requirements.txt
 
 conda:
-  file: conda-env.yml
+  file: doc/source/conda-env.yml
 
 python:
   version: 3
