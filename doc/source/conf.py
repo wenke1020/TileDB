@@ -176,4 +176,4 @@ texinfo_documents = [
 # Generate the sidebar automatically so that it is identical across all subprojects.
 # This (and gensidebar.py) from https://github.com/robotpy/robotpy-docs
 import gensidebar
-gensidebar.generate_sidebar(globals(), 'tiledb')
+gensidebar.generate_sidebar({'on_rtd': readthedocs, 'rtd_version': rtd_version}, 'tiledb')

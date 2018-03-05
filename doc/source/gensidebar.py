@@ -21,9 +21,7 @@ def write_if_changed(fname, contents):
 
 def generate_sidebar(conf, conf_api):
 
-    # determine 'latest' or 'stable'
-    # if not conf.do_gen:
-    do_gen = os.environ.get('SIDEBAR', None) == '1' or conf['on_rtd']
+    do_gen = conf['on_rtd']
     version = conf['rtd_version']
 
     lines = [
