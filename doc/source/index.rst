@@ -8,13 +8,7 @@ TileDB API Reference Pages
 
 Welcome to the TileDB API reference documentation. These pages contain the documentation of the TileDB API in the currently supported languages. If you're looking instead for a general introduction to TileDB including installation guidelines, tutorials and examples, please see the `main documentation site <https://docs.tiledb.io/>`_.
 
-All Reference Pages
--------------------
-.. toctree::
-   :maxdepth: 1
-
-   c-api
-   c++-api
+.. include:: _sidebar.rst.inc
 
 Special pages
 -------------
