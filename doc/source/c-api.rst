@@ -1,9 +1,13 @@
 TileDB C API Reference
 ======================
 
+.. highlight:: c
+
 Types
 -----
 .. doxygentypedef:: tiledb_config_t
+    :project: TileDB-C
+.. doxygentypedef:: tiledb_config_iter_t
     :project: TileDB-C
 .. doxygentypedef:: tiledb_ctx_t
     :project: TileDB-C
@@ -118,6 +122,8 @@ Config Iterator
 .. doxygenfunction:: tiledb_config_iter_next
     :project: TileDB-C
 .. doxygenfunction:: tiledb_config_iter_done
+    :project: TileDB-C
+.. doxygenfunction:: tiledb_config_iter_reset
     :project: TileDB-C
 
 Error
