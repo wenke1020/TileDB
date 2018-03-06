@@ -1,6 +1,8 @@
 TileDB C++ API Reference
 ========================
 
+.. highlight:: c++
+
 Context
 -------
 .. doxygenclass:: tiledb::Context

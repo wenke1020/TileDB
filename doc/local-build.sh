@@ -22,27 +22,6 @@ arg() {
   echo "$1" | sed "s/^${2-[^=]*=}//" | sed "s/:/;/g"
 }
 
-# Display bootstrap usage
-usage() {
-echo '
-Usage: '"$0"' [<options>]
-    Builds the TileDB ReadTheDocs website locally.
-
-Options: [defaults in brackets after descriptions]
-Configuration:
-    --help                          print this message
-
-Dependencies:
-    c/c++ compiler
-    GNU make
-    cmake           http://www.cmake.org/
-    python3
-    pip3
-    virtualenv
-'
-  exit 10
-}
-
 setup_venv() {
   if [ ! -d "${venv_dir}" ]; then
     virtualenv "${venv_dir}" || die "could not create virtualenv"

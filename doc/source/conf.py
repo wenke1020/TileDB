@@ -48,11 +48,12 @@ extensions = [
     'breathe'
 ]
 
-# Mapping for linking between RTD subprojects.
-intersphinx_mapping = {
-    'tiledb': ('https://tiledb-inc-tiledb.readthedocs-hosted.com/en/%s/' % rtd_version, None),
-    'tiledb-py': ('https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/python-api/en/%s/' % rtd_version, None)
-}
+if readthedocs:
+    # Mapping for linking between RTD subprojects.
+    intersphinx_mapping = {
+        'tiledb': ('https://tiledb-inc-tiledb.readthedocs-hosted.com/en/%s/' % rtd_version, None),
+        'tiledb-py': ('https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/python-api/en/%s/' % rtd_version, None)
+    }
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
