@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#
+# Builds the ReadTheDocs documentation locally.
+# Usage. Execute in this directory:
+#   $ ./local-build.sh
+# This creates a Python virtual env 'venv' in the current directory.
+#
+
 # Choose the default directories
 source_dir="source"
 build_dir="source/_build"
@@ -27,7 +34,7 @@ setup_venv() {
     virtualenv "${venv_dir}" || die "could not create virtualenv"
   fi
   source "${venv_dir}/bin/activate" || die "could not activate virtualenv"
-  pip install 'Sphinx' \
+  pip install 'Sphinx==1.6.7' \
        'breathe' \
        'sphinx_rtd_theme' || die "could not install doc dependencies"
 }
@@ -46,7 +53,7 @@ run_doxygen() {
 }
 
 build_site() {
-    sphinx-build -E -b html -d ${build_dir}/doctrees -j auto -D language=en ${source_dir} ${build_dir}/html || \
+    sphinx-build -E -b html -d ${build_dir}/doctrees -D language=en ${source_dir} ${build_dir}/html || \
         die "could not build sphinx site"
 }
 

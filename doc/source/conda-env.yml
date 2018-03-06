@@ -4,4 +4,5 @@ channels:
   - defaults
 dependencies:
   - cmake
+  - Sphinx==1.6.7
   - breathe==4.7.3
