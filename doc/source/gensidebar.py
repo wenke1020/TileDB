@@ -71,6 +71,7 @@ def generate_sidebar(conf, conf_api):
 
     toctree('TileDB 101')
     write('Data Model', 'tiledb101/data-model')
+    write('Basic Concepts', 'tiledb101/basic-concepts')
     endl()
 
     toctree('API Reference')
