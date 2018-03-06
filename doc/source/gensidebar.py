@@ -69,6 +69,10 @@ def generate_sidebar(conf, conf_api):
     write('Usage', 'usage')
     endl()
 
+    toctree('TileDB 101')
+    write('Data Model', 'tiledb101/data-model')
+    endl()
+
     toctree('API Reference')
     write_api('tiledb', 'C', 'c-api')
     write_api('tiledb', 'C++', 'c++-api')
