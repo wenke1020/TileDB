@@ -65,7 +65,7 @@ def generate_sidebar(conf, conf_api):
 
     toctree('Getting Started')
     write('Introduction', 'introduction')
-    write('Installation', 'install')
+    write('Installation', 'installation')
     write('Usage', 'usage')
     endl()
 
