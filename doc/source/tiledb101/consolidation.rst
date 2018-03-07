@@ -36,7 +36,7 @@ delete the old fragments and renders the new fragment as **visible**.
     fragments of approximately equal size. Moreover, read performance
     degrades when many data tiles of different fragments overlap in the
     logical space (this will become apparent in section
-    :doc:`Reading <reading>`). Thus, it is important to consolidate those
+    :doc:`Reading <reading/index>`). Thus, it is important to consolidate those
     fragments before others. We are currently implementing a new
     consolidation algorithm that addresses all these issues, and runs
     automatically in the background hiding all these technical details from

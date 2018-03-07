@@ -31,15 +31,19 @@ multi-processing (for those storage backends that support it).
     but rather resource locking must be implemented as an external
     feature).
 
-==============================    ===========     ============
-Operation                         Thread-safe     Process-safe
-------------------------------    -----------     ------------
-Write/Read Array                    ✔               ✔
-Consolidate Array                   ✔               ✔
-Create Array/Group                  ✔               ✘
-Move/Delete/List/Walk Array         ✘               ✘
-All VFS Operations                  ✘               ✘
-==============================    ===========     ============
+.. These correspond to custom.css rules
+.. role:: red
+.. role:: green
+
+==============================    ===============     ================
+**Operation**                     **Thread-safe**     **Process-safe**
+------------------------------    ---------------     ----------------
+Write/Read Array                    :green:`✔`        :green:`✔`
+Consolidate Array                   :green:`✔`        :green:`✔`
+Create Array/Group                  :green:`✔`        :red:`✘`
+Move/Delete/List/Walk Array         :red:`✘`          :red:`✘`
+All VFS Operations                  :red:`✘`          :red:`✘`
+==============================    ===============     ================
 
 Write/Read Array
 ----------------

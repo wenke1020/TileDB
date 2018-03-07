@@ -118,6 +118,9 @@ stands for some dummy value (any random value), which is of type
 
     Figure 9: Writing to a dense subarray
 
+Writing in subarray layouts
+---------------------------
+
 The previous writing mode leads to the best performance, because TileDB
 receives the cell values from the user in exactly the same layout as the
 one it stores them on the disk. Therefore, no additional internal cell
