@@ -5,5 +5,7 @@ formats:
 conda:
   file: doc/source/conda-env.yml
 
+requirements_file: doc/source/requirements.txt
+
 python:
   version: 3
