@@ -27,12 +27,42 @@ First, we need to set up an AWS account and generate access keys.
 
 8. Export these keys to your environment from a console.
 
-
 Now you are ready to start writing TileDB programs! When creating a TileDB
 context or a VFS object, you need to set up a configuration object with the
 following parameters for AWS S3 (supposing that your S3 buckets are on region
 ``us-east-1`` - you can use set an arbitrary region):
 
+.. tabs::
+
+   .. code-tab:: c
+
+         tiledb_config_t *config = NULL;
+         tiledb_config_t *error = NULL;
+         tiledb_config_create(&config, &error);
+
+         tiledb_config_set(config, "vfs.s3.scheme", "https", &error);
+         tiledb_config_set(config, "vfs.s3.region", "us-east-1", &error);
+         tiledb_config_set(config, "vfs.s3.endpoint_override", "", &error);
+         tiledb_config_set(config, "vfs.s3.use_virtual_addressing", "true", &error);
+
+
+   .. code-tab:: c++
+
+         tiledb::Config config;
+
+         config["vfs.s3.scheme"] = "https";
+         config["vfs.s3.region"] = "us-east-1";
+         config["vfs.s3.endpoint_override"] = "";
+         config["vfs.s3.use_virtual_addressing"] = true;
+
+   .. code-tab:: py
+
+         config = tiledb.Config()
+
+         config["vfs.s3.scheme"] = "https";
+         config["vfs.s3.region"] = "us-east-1";
+         config["vfs.s3.endpoint_override"] = "";
+         config["vfs.s3.use_virtual_addressing"] = "true";
 
 .. note::
     The above configuration parameters are currently set as shown in TileDB **by default**.
@@ -50,3 +80,32 @@ for installation instructions.
 
 Once you get minio server running, you need to set the S3 configurations
 as follows (below, ``<port>`` stands for the port on which you are running the minio server):
+
+.. tabs::
+
+   .. code-tab:: c
+
+         tiledb_config_t *config = NULL;
+         tiledb_config_t *error = NULL;
+         tiledb_config_create(&config, &error);
+
+         tiledb_config_set(config, "vfs.s3.scheme", "http", &error);
+         tiledb_config_set(config, "vfs.s3.endpoint_override", "localhost:<port>", &error);
+         tiledb_config_set(config, "vfs.s3.use_virtual_addressing", "false", &error);
+
+
+   .. code-tab:: c++
+
+         tiledb::Config config;
+
+         config["vfs.s3.scheme"] = "http";
+         config["vfs.s3.endpoint_override"] = "localhost:<port>";
+         config["vfs.s3.use_virtual_addressing"] = false;
+
+   .. code-tab:: py
+
+         config = tiledb.Config()
+
+         config["vfs.s3.scheme"] = "http";
+         config["vfs.s3.endpoint_override"] = "localhost:<port>";
+         config["vfs.s3.use_virtual_addressing"] = "false";
