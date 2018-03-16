@@ -4,3 +4,6 @@ formats:
 
 conda:
   file: doc/source/conda-env.yml
+
+python:
+  version: 3
