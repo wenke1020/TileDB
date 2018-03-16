@@ -2,8 +2,8 @@
 formats:
   - none
 
-conda:
-  file: doc/source/conda-env.yml
-
 python:
   version: 3
+
+conda:
+  file: doc/source/conda-env.yml
