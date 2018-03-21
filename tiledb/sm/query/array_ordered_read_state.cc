@@ -550,7 +550,7 @@ void ArrayOrderedReadState::async_done(void* data) {
   }
 
   // Handle overflow
-  bool sparse = array_schema->dense();
+  bool sparse = !array_schema->dense();
   if (overflow) {  // OVERFLOW
     // Update buffer sizes
     for (unsigned int i = 0, b = 0; i < anum; ++i) {
