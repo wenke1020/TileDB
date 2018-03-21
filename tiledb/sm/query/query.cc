@@ -306,6 +306,15 @@ Status Query::init(
   buffer_sizes_ = buffer_sizes;
   fragment_metadata_ = fragment_metadata;
 
+  std::cout << "DEBUG: ATTRIBUTE ID's" << "\n";
+  for (size_t i=0; i < attribute_ids.size(); i++) {
+    std::cout << "DEBUG: "<< array_schema_->attribute(i)->name()
+                          << " "
+                          << "Buffer size: "
+                          << buffer_sizes[i]
+                          << "\n";
+  }
+
   if (add_coords)
     this->add_coords();
 
@@ -510,7 +519,7 @@ Status Query::set_subarray(const void* subarray) {
   uint64_t subarray_size = 2 * array_schema_->coords_size();
 
   if (subarray_ == nullptr)
-    subarray_ = malloc(subarray_size);
+    subarray_ = std::malloc(subarray_size);
 
   if (subarray_ == nullptr)
     return LOG_STATUS(

@@ -859,13 +859,18 @@ Status StorageManager::query_init(
 
 Status StorageManager::query_submit(Query* query) {
   // Initialize query
-  if (query->status() != QueryStatus::INCOMPLETE)
+  if (query->status() != QueryStatus::INCOMPLETE) {
+    std::cout << "DEBUG: QUERY INIT\n";
     RETURN_NOT_OK(query->init());
+  }
 
   // Based on the query type, invoke the appropriate call
   QueryType query_type = query->type();
-  if (query_type == QueryType::READ)
+  if (query_type == QueryType::READ) {
+    std::cout << "DEBUG: QUERY READ\n";
     return query->read();
+  }
+  std::cout << "DEBUG: QUERY WRITE\n";
 
   return query->write();
 }
