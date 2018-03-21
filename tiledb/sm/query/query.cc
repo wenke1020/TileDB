@@ -305,7 +305,7 @@ Status Query::init(
   buffers_ = buffers;
   buffer_sizes_ = buffer_sizes;
   fragment_metadata_ = fragment_metadata;
-
+  /**
   std::cout << "DEBUG: ATTRIBUTE ID's" << "\n";
   for (size_t i=0; i < attribute_ids.size(); i++) {
     std::cout << "DEBUG: "<< array_schema_->attribute(i)->name()
@@ -314,7 +314,7 @@ Status Query::init(
                           << buffer_sizes[i]
                           << "\n";
   }
-
+  **/
   if (add_coords)
     this->add_coords();
 
