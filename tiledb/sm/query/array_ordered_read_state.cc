@@ -194,7 +194,7 @@ Status ArrayOrderedReadState::finalize() {
 
 bool ArrayOrderedReadState::overflow() const {
   for (int i = 0; i < (int)attribute_ids_.size(); ++i) {
-    std::cout << "DEBUG: ArrayOrderedReadState::overflow() overflow_[i] " << overflow_[i] << "\n";
+    //std::cout << "DEBUG: ArrayOrderedReadState::overflow() overflow_[i] " << overflow_[i] << "\n";
     if (overflow_[i])
       return true;
   }
@@ -551,7 +551,7 @@ void ArrayOrderedReadState::async_done(void* data) {
 
   // Handle overflow
   bool sparse = array_schema->dense();
-  std::cout << "DEBUG: ArrayOrderedReadState::async_done() overflow " << overflow << "\n";
+  //std::cout << "DEBUG: ArrayOrderedReadState::async_done() overflow " << overflow << "\n";
   if (overflow) {  // OVERFLOW
     // Update buffer sizes
     for (unsigned int i = 0, b = 0; i < anum; ++i) {
@@ -623,7 +623,7 @@ void ArrayOrderedReadState::async_notify(unsigned int id) {
 }
 
 Status ArrayOrderedReadState::async_submit_query(unsigned int id) {
-  std::cout << "DEBUG: ArrayOrderedReadState::async_submit_query() id: " << id << "\n";
+  // std::cout << "DEBUG: ArrayOrderedReadState::async_submit_query() id: " << id << "\n";
   // For easy reference
   auto storage_manager = query_->storage_manager();
 

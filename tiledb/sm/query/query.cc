@@ -305,6 +305,11 @@ Status Query::init(
   buffers_ = buffers;
   buffer_sizes_ = buffer_sizes;
   fragment_metadata_ = fragment_metadata;
+
+  const uint32_t* debug_subarray_ptr = static_cast<const uint32_t*>(subarray);
+  for (int i=0; i < 6; i++) {
+    std::cout << "DEUBG: Query::init() subarray: " << i << " " << debug_subarray_ptr[i] << "\n";
+  }
   /**
   std::cout << "DEBUG: ATTRIBUTE ID's" << "\n";
   for (size_t i=0; i < attribute_ids.size(); i++) {
