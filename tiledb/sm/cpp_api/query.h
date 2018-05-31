@@ -107,12 +107,12 @@ class Query {
    * @param array_uri Array URI
    * @param type Query type
    */
-  Query(const Context& ctx, const Array& array, tiledb_query_type_t type)
+  Query(const Context& ctx, const Array& array)
       : ctx_(ctx)
       , schema_(ctx, array.uri())
       , uri_(array.uri()) {
     tiledb_query_t* q;
-    ctx.handle_error(tiledb_query_alloc(ctx, &q, array, type));
+    ctx.handle_error(tiledb_query_alloc(ctx, array, &q));
     query_ = std::shared_ptr<tiledb_query_t>(q, deleter_);
   }
 

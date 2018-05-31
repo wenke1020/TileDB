@@ -83,6 +83,8 @@
 * Renamed all C API functions that create TileDB objects from `tiledb_*_create` to `tiledb_*_alloc`.
 * Removed `tiledb_query_set_buffers`
 * Removed `tiledb_query_reset_buffers`
+* Removed query type argument from `tiledb_query_alloc`
+* Added query type argument to `tiledb_array_open`
 
 ### C++ API
 * Fixes with `Array::max_buffer_elements` and `Query::result_buffer_elements` to comply with the API docs. `pair.first` is the number of elements of the offsets buffer. If `pair.first` is 0, it is a fixed-sized attribute or coordinates.
@@ -98,6 +100,8 @@
 * Removed `tiledb::Query::reset_buffers`. Any previous usages can safely be removed.
 * `Map::begin` refers to the same iterator object. For multiple concurrent iterators, a `MapIter` should be manually constructed instead of using `Map::begin()` more than once.
 * Renamed `Domain::rank` to `Domain::ndim` to avoid confusion with matrix def of rank.
+* Removed query type argument from `Query` constructor
+* Added query type argument to `Array` constructor
 
 # TileDB v1.2.2 Release Notes
 

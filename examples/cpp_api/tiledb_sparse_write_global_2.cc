@@ -43,7 +43,7 @@ int main() {
   tiledb::Context ctx;
 
   // Open array
-  tiledb::Array array(ctx, "my_sparse_array");
+  tiledb::Array array(ctx, "my_sparse_array", TILEDB_WRITE);
 
   // Prepare cell buffers - #1
   std::vector<int> a1_buff = {0, 1, 2};
@@ -68,7 +68,7 @@ int main() {
   std::vector<uint64_t> coords_buff = {1, 1, 1, 2};
 
   // Create query
-  tiledb::Query query(ctx, array, TILEDB_WRITE);
+  tiledb::Query query(ctx, array);
   query.set_layout(TILEDB_GLOBAL_ORDER);
   query.set_buffer("a1", a1_buff);
   query.set_buffer("a2", a2_buff);

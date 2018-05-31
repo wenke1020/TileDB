@@ -47,7 +47,7 @@ int main() {
   tiledb::Context ctx;
 
   // Open array
-  tiledb::Array array(ctx, "my_dense_array");
+  tiledb::Array array(ctx, "my_dense_array", TILEDB_READ);
 
   // Compute maximum buffer elements for the query results per attribute
   const std::vector<uint64_t> subarray = {3, 4, 2, 4};
@@ -60,7 +60,7 @@ int main() {
   std::vector<float> a3_buff(max_sizes["a3"].second);
 
   // Create query
-  tiledb::Query query(ctx, array, TILEDB_READ);
+  tiledb::Query query(ctx, array);
   query.set_layout(TILEDB_ROW_MAJOR);
   query.set_subarray(subarray);
   query.set_buffer("a1", a1_buff);

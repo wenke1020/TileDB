@@ -45,7 +45,7 @@ int main() {
   tiledb::Context ctx;
 
   // Open array
-  tiledb::Array array(ctx, "my_dense_array");
+  tiledb::Array array(ctx, "my_dense_array", TILEDB_WRITE);
 
   // Prepare cell buffers
   std::vector<int> a1_data = {211, 213, 212, 208};
@@ -58,7 +58,7 @@ int main() {
   auto a2_buff = tiledb::ungroup_var_buffer(a2);
 
   // Create query
-  tiledb::Query query(ctx, array, TILEDB_WRITE);
+  tiledb::Query query(ctx, array);
   query.set_layout(TILEDB_UNORDERED);
   query.set_subarray<uint64_t>({{{3, 4}}, {{3, 4}}});
   query.set_buffer("a1", a1_data);

@@ -48,7 +48,7 @@ int main() {
   tiledb::Context ctx;
 
   // Open array
-  tiledb::Array array(ctx, "my_dense_array");
+  tiledb::Array array(ctx, "my_dense_array", TILEDB_WRITE);
 
   // Prepare cell buffers
   // clang-format off
@@ -60,7 +60,7 @@ int main() {
   // clang-format on
 
   // Create query
-  tiledb::Query query(ctx, array, TILEDB_WRITE);
+  tiledb::Query query(ctx, array);
   query.set_layout(TILEDB_ROW_MAJOR);
   query.set_subarray<uint64_t>({3, 4, 2, 4});
   query.set_buffer("a1", a1_data);

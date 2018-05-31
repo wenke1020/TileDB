@@ -50,10 +50,10 @@ int main() {
   std::vector<int> a1_data(3);
 
   // Open array
-  tiledb::Array array(ctx, "my_sparse_array");
+  tiledb::Array array(ctx, "my_sparse_array", TILEDB_READ);
 
   // Create query
-  tiledb::Query query(ctx, array, TILEDB_READ);
+  tiledb::Query query(ctx, array);
   query.set_layout(TILEDB_COL_MAJOR);
   query.set_subarray<uint64_t>({3, 4, 2, 4});
   query.set_buffer("a1", a1_data);

@@ -55,14 +55,18 @@ class Array {
    *
    * @param array_uri The array URI.
    */
-  Array(const Context& ctx, const std::string& array_uri)
+  Array(
+      const Context& ctx,
+      const std::string& array_uri,
+      tiledb_query_type_t query_type)
       : ctx_(ctx)
+      , query_type_(query_type)
       , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr))
       , uri_(array_uri) {
     tiledb_array_t* array;
     ctx.handle_error(tiledb_array_alloc(ctx, array_uri.c_str(), &array));
     array_ = std::shared_ptr<tiledb_array_t>(array, deleter_);
-    ctx.handle_error(tiledb_array_open(ctx, array));
+    ctx.handle_error(tiledb_array_open(ctx, array, query_type));
 
     tiledb_array_schema_t* array_schema;
     ctx.handle_error(tiledb_array_get_schema(ctx, array, &array_schema));
@@ -90,9 +94,10 @@ class Array {
   }
 
   /** Opens the array. */
-  void open() {
+  void open(tiledb_query_type_t query_type) {
     auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_open(ctx, array_.get()));
+    ctx.handle_error(tiledb_array_open(ctx, array_.get(), query_type));
+    query_type_ = query_type;
     tiledb_array_schema_t* array_schema;
     ctx.handle_error(tiledb_array_get_schema(ctx, array_.get(), &array_schema));
     schema_ = ArraySchema(ctx, array_schema);
@@ -298,6 +303,10 @@ class Array {
     return ret;
   }
 
+  tiledb_query_type_t query_type() const {
+    return query_type_;
+  }
+
  private:
   /* ********************************* */
   /*         PRIVATE ATTRIBUTES        */
@@ -311,6 +320,9 @@ class Array {
 
   /** Pointer to the TileDB C array object. */
   std::shared_ptr<tiledb_array_t> array_;
+
+  /** The query type the array was opened with. */
+  tiledb_query_type_t query_type_;
 
   /** The array schema. */
   ArraySchema schema_;
