@@ -74,7 +74,7 @@ int main() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  tiledb_query_alloc(ctx, array, &query);
+  tiledb_query_alloc(ctx, array, TILEDB_WRITE, &query);
   tiledb_query_set_layout(ctx, query, TILEDB_UNORDERED);
   tiledb_query_set_buffer(
       ctx, query, attributes[0], buffers[0], &buffer_sizes[0]);

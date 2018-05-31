@@ -289,7 +289,7 @@ void IncompleteFx::write_dense_full() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -367,7 +367,7 @@ void IncompleteFx::write_sparse_full() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -449,7 +449,7 @@ void IncompleteFx::check_dense_incomplete() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, query, attributes[0], buffers[0], &buffer_sizes[0]);
@@ -508,7 +508,7 @@ void IncompleteFx::check_dense_until_complete() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, query, attributes[0], buffers[0], &buffer_sizes[0]);
@@ -582,7 +582,7 @@ void IncompleteFx::check_dense_unsplittable_overflow() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer_var(
       ctx_,
@@ -637,7 +637,7 @@ void IncompleteFx::check_dense_unsplittable_complete() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer_var(
       ctx_,
@@ -695,7 +695,7 @@ void IncompleteFx::check_dense_reset_buffers() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, query, attributes[0], buffers[0], &buffer_sizes[0]);
@@ -768,7 +768,7 @@ void IncompleteFx::check_sparse_incomplete() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, query, attributes[0], buffers[0], &buffer_sizes[0]);
@@ -827,7 +827,7 @@ void IncompleteFx::check_sparse_until_complete() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, query, attributes[0], buffers[0], &buffer_sizes[0]);
@@ -901,7 +901,7 @@ void IncompleteFx::check_sparse_unsplittable_overflow() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer_var(
       ctx_,
@@ -956,7 +956,7 @@ void IncompleteFx::check_sparse_unsplittable_complete() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer_var(
       ctx_,

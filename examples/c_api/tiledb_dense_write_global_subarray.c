@@ -73,7 +73,7 @@ int main() {
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3"};
   uint64_t subarray[] = {3, 4, 3, 4};
-  tiledb_query_alloc(ctx, array, &query);
+  tiledb_query_alloc(ctx, array, TILEDB_WRITE, &query);
   tiledb_query_set_layout(ctx, query, TILEDB_GLOBAL_ORDER);
   tiledb_query_set_subarray(ctx, query, subarray);
   tiledb_query_set_buffer(

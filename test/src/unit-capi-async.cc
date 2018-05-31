@@ -283,7 +283,7 @@ void AsyncFx::write_dense_async() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -372,7 +372,7 @@ void AsyncFx::write_sparse_async() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -464,7 +464,7 @@ void AsyncFx::write_sparse_async_cancelled() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_UNORDERED);
   CHECK(rc == TILEDB_OK);
@@ -559,7 +559,7 @@ void AsyncFx::read_dense_async() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -655,7 +655,7 @@ void AsyncFx::read_sparse_async() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);

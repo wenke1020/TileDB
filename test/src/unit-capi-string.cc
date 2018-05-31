@@ -179,7 +179,7 @@ void StringFx::write_array(const std::string& array_name) {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3"};
-  rc = tiledb_query_alloc(ctx, array, &query);
+  rc = tiledb_query_alloc(ctx, array, TILEDB_WRITE, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx, query, TILEDB_GLOBAL_ORDER);
   REQUIRE(rc == TILEDB_OK);
@@ -261,7 +261,7 @@ void StringFx::read_array(const std::string& array_name) {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx, array, &query);
+  rc = tiledb_query_alloc(ctx, array, TILEDB_READ, &query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx, query, attributes[0], buffers[0], &buffer_sizes[0]);

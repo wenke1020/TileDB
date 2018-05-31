@@ -61,7 +61,7 @@ int main() {
   std::vector<uint64_t> coords_buff(max_sizes[TILEDB_COORDS].second);
 
   // Create query
-  tiledb::Query query(ctx, array);
+  tiledb::Query query(ctx, array, TILEDB_READ);
   query.set_layout(TILEDB_ROW_MAJOR).set_subarray(subarray);
   query.set_buffer("a1", a1_buff);
   query.set_buffer("a2", a2_offsets, a2_data);

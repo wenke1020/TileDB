@@ -234,7 +234,7 @@ void DenseVectorFx::create_dense_vector(const std::string& path) {
   void* write_buffers[] = {buffer_val};
   uint64_t write_buffer_sizes[] = {sizeof(buffer_val)};
   tiledb_query_t* write_query;
-  rc = tiledb_query_alloc(ctx_, array, &write_query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &write_query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_,
@@ -276,7 +276,7 @@ void DenseVectorFx::check_read(
   rc = tiledb_array_open(ctx_, array, TILEDB_READ);
   CHECK(rc == TILEDB_OK);
 
-  rc = tiledb_query_alloc(ctx_, array, &read_query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &read_query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, read_query, attributes[0], read_buffers[0], &read_buffer_sizes[0]);
@@ -319,7 +319,7 @@ void DenseVectorFx::check_update(const std::string& path) {
 
   // Update
   tiledb_query_t* update_query;
-  rc = tiledb_query_alloc(ctx_, array, &update_query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &update_query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_,
@@ -353,7 +353,7 @@ void DenseVectorFx::check_update(const std::string& path) {
   void* read_buffers[] = {buffer};
   uint64_t read_buffer_sizes[] = {sizeof(buffer)};
   tiledb_query_t* read_query = nullptr;
-  rc = tiledb_query_alloc(ctx_, array, &read_query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &read_query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, read_query, attributes[0], read_buffers[0], &read_buffer_sizes[0]);
@@ -397,7 +397,7 @@ void DenseVectorFx::check_duplicate_coords(const std::string& path) {
 
     // Update
     tiledb_query_t* update_query;
-    rc = tiledb_query_alloc(ctx_, array, &update_query);
+    rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &update_query);
     REQUIRE(rc == TILEDB_OK);
     rc = tiledb_query_set_buffer(
         ctx_,
@@ -437,7 +437,7 @@ void DenseVectorFx::check_duplicate_coords(const std::string& path) {
   void* read_buffers[] = {buffer};
   uint64_t read_buffer_sizes[] = {sizeof(buffer)};
   tiledb_query_t* read_query = nullptr;
-  rc = tiledb_query_alloc(ctx_, array, &read_query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &read_query);
   REQUIRE(rc == TILEDB_OK);
   rc = tiledb_query_set_buffer(
       ctx_, read_query, attributes[0], read_buffers[0], &read_buffer_sizes[0]);

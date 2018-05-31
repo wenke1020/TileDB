@@ -286,7 +286,7 @@ void ConsolidationFx::write_dense_full() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -348,7 +348,7 @@ void ConsolidationFx::write_dense_subarray() {
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3"};
   uint64_t subarray[] = {3, 4, 3, 4};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -414,7 +414,7 @@ void ConsolidationFx::write_dense_unordered() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_UNORDERED);
   CHECK(rc == TILEDB_OK);
@@ -495,7 +495,7 @@ void ConsolidationFx::write_sparse_full() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -562,7 +562,7 @@ void ConsolidationFx::write_sparse_unordered() {
   // Create query
   tiledb_query_t* query;
   const char* attributes[] = {"a1", "a2", "a3", TILEDB_COORDS};
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_WRITE, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_UNORDERED);
   CHECK(rc == TILEDB_OK);
@@ -648,7 +648,7 @@ void ConsolidationFx::read_dense_full_subarray_unordered() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -749,7 +749,7 @@ void ConsolidationFx::read_dense_subarray_full_unordered() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -841,7 +841,7 @@ void ConsolidationFx::read_dense_subarray_unordered_full() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -930,7 +930,7 @@ void ConsolidationFx::read_sparse_full_unordered() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);
@@ -1023,7 +1023,7 @@ void ConsolidationFx::read_sparse_unordered_full() {
 
   // Create query
   tiledb_query_t* query;
-  rc = tiledb_query_alloc(ctx_, array, &query);
+  rc = tiledb_query_alloc(ctx_, array, TILEDB_READ, &query);
   CHECK(rc == TILEDB_OK);
   rc = tiledb_query_set_layout(ctx_, query, TILEDB_GLOBAL_ORDER);
   CHECK(rc == TILEDB_OK);

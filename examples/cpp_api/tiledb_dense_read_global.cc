@@ -71,7 +71,7 @@ int main() {
   std::vector<float> a3_buff(max_sizes["a3"].second);
 
   // Create query
-  tiledb::Query query(ctx, array);
+  tiledb::Query query(ctx, array, TILEDB_READ);
   query.set_layout(TILEDB_GLOBAL_ORDER);
   query.set_subarray(subarray);
   query.set_buffer("a1", a1_buff);

@@ -56,7 +56,7 @@ int main() {
   auto a2_buff = tiledb::ungroup_var_buffer(a2);
 
   // Create query
-  tiledb::Query query(ctx, array);
+  tiledb::Query query(ctx, array, TILEDB_WRITE);
   query.set_layout(TILEDB_GLOBAL_ORDER);
   query.set_subarray<uint64_t>({3, 4, 3, 4});
   query.set_buffer("a1", a1_data);

@@ -1604,7 +1604,13 @@ int tiledb_array_schema_get_attribute_from_name(
 /* ****************************** */
 
 int tiledb_query_alloc(
-    tiledb_ctx_t* ctx, tiledb_array_t* array, tiledb_query_t** query) {
+    tiledb_ctx_t* ctx,
+    tiledb_array_t* array,
+    tiledb_query_type_t query_type,
+    tiledb_query_t** query) {
+  // TODO check query type against array
+  (void)query_type;
+
   // Sanity check
   if (sanity_check(ctx) == TILEDB_ERR)
     return TILEDB_ERR;
@@ -1613,6 +1619,21 @@ int tiledb_query_alloc(
   if (!array->is_open_) {
     auto st = tiledb::sm::Status::Error(
         "Failed to allocate TileDB query object; Input array is not open");
+    LOG_STATUS(st);
+    save_error(ctx, st);
+    return TILEDB_ERR;
+  }
+
+  // Error is the query type and array query type do not match
+  auto _array_query_type = array->open_array_->query_type();
+  auto _query_type = static_cast<tiledb::sm::QueryType>(query_type);
+  if (_array_query_type != _query_type) {
+    std::stringstream errmsg;
+    errmsg << "Failed to allocate TileDB query object; "
+           << "Opened array query type does not match declared query type: "
+           << "(" << query_type_str(_array_query_type)
+           << " != " << query_type_str(_query_type) << ")";
+    auto st = tiledb::sm::Status::Error(errmsg.str());
     LOG_STATUS(st);
     save_error(ctx, st);
     return TILEDB_ERR;

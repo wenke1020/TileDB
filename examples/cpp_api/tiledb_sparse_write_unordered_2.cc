@@ -52,7 +52,7 @@ int main() {
   std::vector<uint64_t> coords_buff = {3, 4, 4, 2, 1, 1};
 
   // Create query
-  tiledb::Query query(ctx, array);
+  tiledb::Query query(ctx, array, TILEDB_WRITE);
   query.set_layout(TILEDB_UNORDERED);
   query.set_buffer("a1", a1_buff);
   query.set_buffer("a2", a2_buff);

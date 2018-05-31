@@ -1812,16 +1812,20 @@ TILEDB_EXPORT int tiledb_array_schema_dump(
  * tiledb_array_alloc(ctx, "file:///my_array", &array);
  * tiledb_array_open(ctx, array, TILEDB_WRITE);
  * tiledb_query_t* query;
- * tiledb_query_alloc(ctx, array, &query);
+ * tiledb_query_alloc(ctx, array, TILEDB_WRITE, &query);
  * @endcode
  *
  * @param ctx The TileDB context.
  * @param query The query object to be created.
  * @param array An opened array object.
+ * @param query_type The type of queries the array object will be receiving.
  * @return `TILEDB_OK` for success and `TILEDB_OOM` or `TILEDB_ERR` for error.
  */
 TILEDB_EXPORT int tiledb_query_alloc(
-    tiledb_ctx_t* ctx, tiledb_array_t* array, tiledb_query_t** query);
+    tiledb_ctx_t* ctx,
+    tiledb_array_t* array,
+    tiledb_query_type_t query_type,
+    tiledb_query_t** query);
 
 /**
  * Indicates that the query will write or read a subarray, and provides

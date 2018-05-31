@@ -124,7 +124,7 @@ int main() {
   // for the query, which means that we wish to get all the array cells.
 
   tiledb_query_t* query;
-  tiledb_query_alloc(ctx, array, &query);
+  tiledb_query_alloc(ctx, array, TILEDB_READ, &query);
   tiledb_query_set_buffer(
       ctx, query, attributes[0], buffers[0], &buffer_sizes[0]);
   tiledb_query_set_buffer_var(

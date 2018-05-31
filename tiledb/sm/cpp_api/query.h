@@ -105,14 +105,16 @@ class Query {
    *
    * @param ctx TileDB context
    * @param array_uri Array URI
+   * @param type The TileDB query type
    * @param type Query type
    */
-  Query(const Context& ctx, const Array& array)
+  Query(const Context& ctx, const Array& array, tiledb_query_type_t type)
       : ctx_(ctx)
       , schema_(ctx, array.uri())
-      , uri_(array.uri()) {
+      , uri_(array.uri())
+      , query_type_(type) {
     tiledb_query_t* q;
-    ctx.handle_error(tiledb_query_alloc(ctx, array, &q));
+    ctx.handle_error(tiledb_query_alloc(ctx, array, type, &q));
     query_ = std::shared_ptr<tiledb_query_t>(q, deleter_);
   }
 
@@ -130,6 +132,11 @@ class Query {
     auto& ctx = ctx_.get();
     ctx.handle_error(tiledb_query_set_layout(ctx, query_.get(), layout));
     return *this;
+  }
+
+  /** Returns the query type. */
+  tiledb_query_type_t query_type() const {
+    return query_type_;
   }
 
   /** Returns the query status. */
@@ -478,6 +485,9 @@ class Query {
 
   /** URI of array being queried. **/
   std::string uri_;
+
+  /** TileDB Query type **/
+  tiledb_query_type_t query_type_;
 
   /* ********************************* */
   /*          PRIVATE METHODS          */
