@@ -7,15 +7,43 @@ services: docker
 matrix:
   include:
     - os: linux
+      env:
+      - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
 
     - os: linux
-      env: TILEDB_HDFS="ON"
+      env:
+      - TILEDB_HDFS="ON"
+      - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
 
     - os: linux
-      env: TILEDB_S3="ON"
+      env:
+      - TILEDB_S3="ON"
+      - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
 
     - os: osx
 
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+        eval "${MATRIX_EVAL}";
+      fi
 install:
     # Install clangformat (v5.0)
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
